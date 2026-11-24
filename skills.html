@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore in-demand remote and freelance skills, earnings calculators, top platforms, and learning resources with NS WorkLink.">
+  <title>Remote Skills & Gigs Hub — NS WorkLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+/* ─── Design Tokens ─────────────────────────────────────────────────────── */
+:root {
+  --navy:    #10233f;
+  --navy-2:  #17385b;
+  --blue:    #315de8;
+  --blue-dark:#2349c8;
+  --green:   #23a879;
+  --mint:    #dff7ec;
+  --ink:     #18253b;
+  --muted:   #68768b;
+  --line:    #e6ebf2;
+  --surface: #f7f9fc;
+  --white:   #fff;
+  --orange:  #f4a34b;
+  --rose:    #f43f6b;
+  --radius:  20px;
+  --shadow:  0 20px 60px rgba(16,35,63,.09);
+}
+
+/* ─── Reset & Base ───────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+body { margin: 0; font-family: "DM Sans", sans-serif; color: var(--ink); background: #fff; line-height: 1.6; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+button, a, select { -webkit-tap-highlight-color: transparent; }
+h1, h2, h3, h4, p { margin-top: 0; }
+h1, h2, h3, h4 { font-family: Manrope, sans-serif; letter-spacing: -1.2px; }
+img { max-width: 100%; }
+
+.container {
+  width: min(1160px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0;
+  margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* ─── Announcement Bar ───────────────────────────────────────────────────── */
+.announcement {
+  background: var(--navy);
+  color: #eaf1ff;
+  font-size: 12px;
+}
+.announcement-inner {
+  display: flex; align-items: center; gap: 9px; min-height: 36px;
+}
+.announcement p { margin: 0; }
+.announcement a { margin-left: auto; color: #fff; font-weight: 700; }
+.announcement-dot, .live-dot {
+  display: inline-block; width: 7px; height: 7px;
+  background: #56e1ae; border-radius: 50%;
+  box-shadow: 0 0 0 4px #56e1ae20;
+}
+
+/* ─── Header / Navbar ────────────────────────────────────────────────────── */
+.site-header {
+  height: 82px;
+  background: #0f172a;
+  position: sticky; top: 0; z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.nav-wrap {
+  height: 100%; display: flex; align-items: center; justify-content: space-between;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 11px;
+}
+.brand-mark {
+  position: relative; display: grid; place-items: center;
+  width: 43px; height: 43px;
+  background: linear-gradient(145deg, #3768f0, #2449c9);
+  border-radius: 13px; color: #fff;
+  font-family: Manrope, sans-serif; font-size: 14px; font-weight: 800; letter-spacing: -1px;
+  box-shadow: 0 6px 15px #315de833;
+}
+.brand-mark i {
+  position: absolute; width: 8px; height: 8px;
+  background: #64e0ae; border: 2px solid #315de8; border-radius: 50%;
+  right: -2px; top: -2px;
+}
+.brand-copy { display: flex; flex-direction: column; line-height: 1.25; }
+.brand-copy strong { font-family: Manrope, sans-serif; font-size: 17px; letter-spacing: -.6px; color: #fff; }
+.brand-copy strong b { color: #7cabff; }
+.brand-copy small { font-size: 10px; letter-spacing: 1.5px; color: #6b7c94; text-transform: uppercase; margin-top: 4px; }
+
+.main-nav { display: flex; align-items: center; gap: 28px; }
+.nav-link {
+  font-size: 13px; font-weight: 600; color: #9aafc8; transition: color .2s;
+}
+.nav-link:hover { color: #fff; }
+.nav-link.active { color: #fff; }
+.nav-link.active::after {
+  content: ''; display: block; height: 2px; background: var(--blue);
+  border-radius: 2px; margin-top: 2px;
+}
+.nav-cta {
+  padding: 10px 16px; border-radius: 10px; background: var(--blue);
+  color: #fff; font-size: 12px; font-weight: 700; box-shadow: 0 6px 16px #315de82c;
+  transition: background .2s, transform .2s;
+}
+.nav-cta:hover { background: var(--blue-dark); transform: translateY(-1px); }
+.nav-cta span { margin-left: 6px; }
+
+.menu-toggle {
+  display: none; border: 0; background: transparent; padding: 8px; cursor: pointer;
+}
+.menu-toggle span {
+  display: block; width: 22px; height: 2px;
+  background: #fff; margin: 5px; border-radius: 3px; transition: transform .3s, opacity .3s;
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────────── */
+.skills-hero {
+  background: #0f172a;
+  position: relative; overflow: hidden;
+  padding: 86px 0 72px;
+}
+.hero-dot-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, #ffffff0d 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 40%, transparent 100%);
+}
+.hero-glow-left {
+  position: absolute; left: -120px; top: -60px; width: 480px; height: 480px;
+  background: radial-gradient(circle, #315de822, transparent 70%); pointer-events: none;
+}
+.hero-glow-right {
+  position: absolute; right: -60px; bottom: -80px; width: 360px; height: 360px;
+  background: radial-gradient(circle, #23a87918, transparent 70%); pointer-events: none;
+}
+.skills-hero .container { position: relative; z-index: 2; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(49, 93, 232, .18); border: 1px solid rgba(49, 93, 232, .35);
+  color: #89aeff; font-size: 10px; font-weight: 800; letter-spacing: 1.6px;
+  padding: 6px 13px; border-radius: 30px; margin-bottom: 20px; text-transform: uppercase;
+}
+.hero-eyebrow-dot {
+  width: 6px; height: 6px; background: #56e1ae; border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(86,225,174,.2);
+}
+.skills-hero h1 {
+  font-size: clamp(36px, 4.2vw, 56px); line-height: 1.1; font-weight: 800;
+  color: #fff; margin: 0 0 18px; max-width: 740px; letter-spacing: -2px;
+}
+.skills-hero h1 span { color: #7cabff; }
+.skills-hero .hero-sub {
+  color: #8fa3be; font-size: 15px; line-height: 1.85; max-width: 560px; margin: 0 0 36px;
+}
+.hero-search-row {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 28px;
+}
+.hero-search-wrap {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 11px; padding: 10px 15px; min-width: 280px; flex: 1; max-width: 420px;
+  transition: border-color .2s;
+}
+.hero-search-wrap:focus-within { border-color: rgba(49,93,232,.6); background: rgba(255,255,255,.1); }
+.hero-search-wrap svg { flex-shrink: 0; color: #6a85a4; }
+.hero-search-wrap input {
+  flex: 1; border: 0; outline: 0; background: transparent;
+  color: #fff; font-size: 13px;
+}
+.hero-search-wrap input::placeholder { color: #5a718a; }
+.hero-filter-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-pill {
+  border: 1px solid rgba(255,255,255,.13); background: transparent;
+  color: #8fa3be; border-radius: 20px; padding: 7px 14px; font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: all .2s;
+}
+.filter-pill:hover, .filter-pill.active {
+  background: rgba(49,93,232,.25); border-color: rgba(49,93,232,.55); color: #89aeff;
+}
+
+/* ─── Layout Shell ───────────────────────────────────────────────────────── */
+.skills-shell {
+  background: var(--surface); padding: 48px 0 64px;
+}
+.skills-layout {
+  display: grid; grid-template-columns: 320px 1fr; gap: 24px; align-items: start;
+}
+
+/* ─── Left Sidebar ───────────────────────────────────────────────────────── */
+.skills-sidebar {}
+.sidebar-title {
+  font-size: 10px; font-weight: 800; letter-spacing: 1.4px;
+  color: var(--muted); text-transform: uppercase; margin-bottom: 12px;
+}
+.domain-list { display: flex; flex-direction: column; gap: 10px; }
+.domain-card {
+  background: #fff; border: 1.5px solid var(--line); border-radius: 15px;
+  padding: 16px 18px; cursor: pointer; transition: all .2s;
+}
+.domain-card:hover { border-color: #c5d3ff; box-shadow: 0 6px 20px rgba(49,93,232,.08); transform: translateY(-1px); }
+.domain-card.selected {
+  border-color: var(--blue); box-shadow: 0 8px 28px rgba(49,93,232,.14);
+  background: linear-gradient(160deg, #f5f8ff, #fff);
+}
+.domain-card-top { display: flex; align-items: flex-start; gap: 12px; }
+.domain-icon {
+  width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.domain-card-info { flex: 1; min-width: 0; }
+.domain-cat {
+  font-size: 9px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 2px;
+}
+.domain-title {
+  font-family: Manrope, sans-serif; font-size: 14px; font-weight: 700;
+  color: var(--navy); letter-spacing: -.4px; line-height: 1.3; margin: 0;
+}
+.domain-card-badges { display: flex; align-items: center; gap: 7px; margin-top: 11px; flex-wrap: wrap; }
+.demand-badge {
+  font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 6px; letter-spacing: .3px;
+}
+.demand-badge.explosive { background: #e0f8ed; color: #18835c; }
+.demand-badge.high { background: #fff0f3; color: #c43060; }
+.rate-badge {
+  font-size: 9px; color: var(--muted); font-weight: 600;
+}
+.platforms-badge {
+  margin-left: auto; font-size: 9px; color: var(--muted); font-weight: 600; white-space: nowrap;
+}
+
+/* ─── Earnings Calculator ────────────────────────────────────────────────── */
+.calc-card {
+  background: var(--navy); border-radius: 16px; padding: 22px; margin-top: 16px; color: #fff;
+}
+.calc-title {
+  font-family: Manrope, sans-serif; font-size: 14px; font-weight: 700; margin: 0 0 4px;
+  color: #fff; letter-spacing: -.3px;
+}
+.calc-sub { font-size: 10px; color: #6b89a8; margin: 0 0 18px; }
+.calc-label {
+  font-size: 10px; font-weight: 700; color: #8fa3be;
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;
+}
+.calc-label span { color: #fff; font-size: 12px; }
+.calc-slider {
+  width: 100%; height: 4px; border-radius: 4px; outline: none; border: 0;
+  background: rgba(255,255,255,.12); cursor: pointer; margin-bottom: 18px;
+  appearance: none; -webkit-appearance: none;
+}
+.calc-slider::-webkit-slider-thumb {
+  appearance: none; -webkit-appearance: none;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--blue); border: 2px solid #fff; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(49,93,232,.4);
+}
+.calc-slider::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--blue); border: 2px solid #fff; cursor: pointer;
+}
+.calc-outputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+.calc-output {
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+  border-radius: 11px; padding: 13px 14px;
+}
+.calc-output-label { font-size: 9px; letter-spacing: 1px; color: #6b89a8; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+.calc-output-val { font-family: Manrope, sans-serif; font-size: 20px; font-weight: 800; color: #56e1ae; letter-spacing: -.5px; }
+
+/* ─── Right Panel ────────────────────────────────────────────────────────── */
+.detail-panel {
+  background: #fff; border: 1.5px solid var(--line); border-radius: 18px;
+  overflow: hidden; min-height: 600px;
+}
+.detail-header {
+  padding: 28px 32px 22px; border-bottom: 1px solid var(--line);
+  background: linear-gradient(135deg, #f5f8ff 0%, #fff 100%);
+}
+.detail-header-top { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+.detail-icon {
+  width: 56px; height: 56px; border-radius: 15px;
+  display: grid; place-items: center; font-size: 26px; flex-shrink: 0;
+}
+.detail-meta { flex: 1; }
+.detail-cat {
+  font-size: 10px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 5px;
+}
+.detail-title {
+  font-family: Manrope, sans-serif; font-size: clamp(20px, 2vw, 26px);
+  font-weight: 800; color: var(--navy); letter-spacing: -1px; margin: 0 0 4px; line-height: 1.2;
+}
+.detail-difficulty {
+  display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; background: #e8eeff; color: var(--blue);
+}
+.detail-tagline {
+  font-size: 14px; color: #5a6e85; line-height: 1.7; margin: 0;
+}
+.detail-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  padding: 22px 32px; border-bottom: 1px solid var(--line);
+}
+.stat-box {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; padding: 14px;
+}
+.stat-label { font-size: 9px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.stat-val { font-family: Manrope, sans-serif; font-size: 15px; font-weight: 800; color: var(--navy); line-height: 1.2; letter-spacing: -.3px; }
+.stat-val.green { color: var(--green); }
+
+.detail-body { padding: 24px 32px; }
+.detail-section { margin-bottom: 28px; }
+.detail-section-title {
+  font-family: Manrope, sans-serif; font-size: 14px; font-weight: 800;
+  color: var(--navy); letter-spacing: -.3px; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.detail-section-title::before {
+  content: ''; display: block; width: 3px; height: 16px;
+  background: var(--blue); border-radius: 3px;
+}
+.detail-description { font-size: 13px; color: #5a6e85; line-height: 1.85; margin: 0; }
+
+/* Platform cards */
+.platform-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.platform-card {
+  border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px;
+  display: flex; flex-direction: column; gap: 6px;
+  transition: border-color .2s, transform .2s;
+}
+.platform-card:hover { border-color: #c5d3ff; transform: translateY(-1px); }
+.platform-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.platform-name { font-size: 13px; font-weight: 700; color: var(--navy); font-family: Manrope, sans-serif; }
+.platform-badge {
+  font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 5px;
+  background: #e0f8ed; color: #18835c; letter-spacing: .3px; white-space: nowrap;
+}
+.platform-note { font-size: 11px; color: #6a7f96; line-height: 1.6; }
+.platform-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+.platform-rate { font-size: 10px; font-weight: 700; color: var(--green); }
+.platform-link {
+  font-size: 10px; font-weight: 700; color: var(--blue);
+  display: flex; align-items: center; gap: 4px;
+  border: 1px solid #c5d3ff; border-radius: 7px; padding: 4px 10px;
+  transition: background .2s;
+}
+.platform-link:hover { background: #eef2ff; }
+
+/* Learn cards */
+.learn-list { display: flex; flex-direction: column; gap: 10px; }
+.learn-card {
+  border: 1px solid var(--line); border-radius: 12px; padding: 13px 16px;
+  display: flex; align-items: center; gap: 14px;
+  transition: border-color .2s;
+}
+.learn-card:hover { border-color: #c5d3ff; }
+.learn-icon {
+  width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.learn-free { background: #e0f8ed; }
+.learn-paid { background: #fff0df; }
+.learn-info { flex: 1; }
+.learn-title { font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 1px; line-height: 1.3; }
+.learn-provider { font-size: 10px; color: var(--muted); }
+.learn-badges { display: flex; gap: 6px; }
+.badge-free { background: #e0f8ed; color: #18835c; font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 5px; }
+.badge-paid { background: #fff0df; color: #a56830; font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 5px; }
+.badge-cert { background: #e8eeff; color: var(--blue); font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 5px; }
+.learn-link {
+  font-size: 10px; font-weight: 700; color: var(--blue);
+  border: 1px solid #c5d3ff; border-radius: 7px; padding: 5px 11px;
+  transition: background .2s; white-space: nowrap;
+}
+.learn-link:hover { background: #eef2ff; }
+
+/* Proficiencies & Tools */
+.proficiency-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 7px; }
+.proficiency-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 12px; color: #4a5a6e; line-height: 1.5;
+}
+.proficiency-list li::before {
+  content: '✓'; display: flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 5px; background: #e0f8ed; color: var(--green);
+  font-size: 10px; font-weight: 900; flex-shrink: 0; margin-top: 1px;
+}
+.tools-row { display: flex; flex-wrap: wrap; gap: 7px; }
+.tool-chip {
+  background: #f0f4ff; border: 1px solid #dbe4ff; color: var(--navy);
+  font-size: 11px; font-weight: 600; padding: 5px 11px; border-radius: 7px;
+}
+
+/* Portfolio box */
+.portfolio-box {
+  background: linear-gradient(135deg, #f0f5ff 0%, #fff 100%);
+  border: 1.5px solid #d4deff; border-radius: 14px; padding: 18px 20px;
+}
+.portfolio-box-title { font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--blue); margin-bottom: 7px; }
+.portfolio-box h4 { font-family: Manrope, sans-serif; font-size: 15px; font-weight: 700; color: var(--navy); margin: 0 0 7px; letter-spacing: -.3px; }
+.portfolio-box p { font-size: 12px; color: #5a6e85; line-height: 1.75; margin: 0 0 10px; }
+.portfolio-deliverable { font-size: 11px; color: var(--green); font-weight: 700; display: flex; align-items: flex-start; gap: 7px; }
+.portfolio-deliverable::before { content: '→'; flex-shrink: 0; }
+
+/* Code snippet */
+.snippet-wrap { position: relative; }
+.snippet-header {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #1e293b; padding: 10px 16px; border-radius: 11px 11px 0 0;
+}
+.snippet-dots { display: flex; gap: 6px; }
+.snippet-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.dot-red { background: #f1534e; }
+.dot-yellow { background: #f5c842; }
+.dot-green { background: #53c28b; }
+.snippet-lang { font-size: 10px; color: #64748b; font-weight: 600; }
+.copy-btn {
+  font-size: 10px; font-weight: 700; color: #94a3b8;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 7px; padding: 5px 11px; cursor: pointer; transition: all .2s;
+}
+.copy-btn:hover { color: #fff; border-color: rgba(255,255,255,.25); }
+.copy-btn.copied { color: #56e1ae; border-color: rgba(86,225,174,.35); }
+.snippet-code {
+  background: #0f172a; color: #c8d8f0; font-family: 'Courier New', monospace;
+  font-size: 11px; line-height: 1.7; padding: 16px; border-radius: 0 0 11px 11px;
+  overflow-x: auto; white-space: pre; margin: 0; border: 1px solid #1e293b;
+  border-top: 0; max-height: 260px; overflow-y: auto;
+}
+
+/* ─── Platforms Directory ────────────────────────────────────────────────── */
+.platforms-section {
+  background: #fff; padding: 56px 0;
+  border-top: 1px solid var(--line);
+}
+.section-heading-row {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px;
+}
+.section-kicker {
+  font-size: 10px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase;
+  color: var(--blue); display: block; margin-bottom: 8px;
+}
+.section-heading-row h2 {
+  font-size: clamp(24px, 2.5vw, 34px); color: var(--navy); margin: 0; letter-spacing: -1px;
+}
+.section-heading-row p { font-size: 12px; color: #7b8799; line-height: 1.8; margin: 0; max-width: 340px; }
+.platforms-table-wrap { overflow-x: auto; border-radius: 15px; border: 1px solid var(--line); }
+.platforms-table {
+  width: 100%; border-collapse: collapse; min-width: 680px;
+}
+.platforms-table th {
+  background: var(--surface); padding: 12px 16px;
+  font-size: 9px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--muted); text-align: left; border-bottom: 1px solid var(--line);
+}
+.platforms-table td {
+  padding: 14px 16px; font-size: 12px; color: #4a5a6e;
+  border-bottom: 1px solid var(--line); vertical-align: middle;
+}
+.platforms-table tr:last-child td { border-bottom: 0; }
+.platforms-table tr:hover td { background: #fbfcff; }
+.table-platform-name { font-weight: 700; color: var(--navy); font-family: Manrope, sans-serif; font-size: 13px; }
+.trust-score { font-weight: 700; color: var(--green); }
+.table-link-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #eef2ff; color: var(--blue); border: 1px solid #d4deff;
+  border-radius: 7px; padding: 6px 12px; font-size: 10px; font-weight: 700;
+  transition: background .2s;
+}
+.table-link-btn:hover { background: #e0e9ff; }
+
+/* ─── CTA Section ────────────────────────────────────────────────────────── */
+.cta-section { padding: 56px 0; background: var(--surface); }
+.cta-card {
+  background: linear-gradient(118deg, #142a4b, #1c3e68);
+  border-radius: 22px; padding: 52px 56px;
+  display: flex; align-items: center; justify-content: space-between; gap: 32px;
+  position: relative; overflow: hidden;
+}
+.cta-orb {
+  position: absolute; border: 1px solid rgba(255,255,255,.08); border-radius: 50%; pointer-events: none;
+}
+.cta-orb-1 { width: 400px; height: 400px; right: -120px; top: -200px; }
+.cta-orb-2 { width: 280px; height: 280px; right: 100px; bottom: -200px; background: rgba(49,93,232,.12); }
+.cta-copy { position: relative; z-index: 1; }
+.cta-kicker { font-size: 10px; font-weight: 800; letter-spacing: 1.6px; color: #89aeff; text-transform: uppercase; margin-bottom: 10px; }
+.cta-copy h2 { font-size: clamp(26px, 3vw, 38px); color: #fff; margin: 0 0 10px; letter-spacing: -1.2px; line-height: 1.15; }
+.cta-copy p { font-size: 13px; color: #8fa3be; line-height: 1.8; margin: 0; max-width: 480px; }
+.cta-actions { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border: 0; border-radius: 10px; padding: 14px 20px;
+  font-weight: 700; font-size: 12px; cursor: pointer;
+  transition: transform .2s, box-shadow .2s, background .2s; white-space: nowrap;
+}
+.button:hover { transform: translateY(-2px); }
+.button-primary { background: var(--blue); color: #fff; box-shadow: 0 8px 20px #315de82b; }
+.button-primary:hover { background: var(--blue-dark); box-shadow: 0 10px 24px #315de83d; }
+.button-light { background: #fff; color: var(--navy); }
+.button-light:hover { background: #f0f5ff; }
+.cta-note { font-size: 10px; color: #56768f; }
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+.site-footer { background: #fff; padding-top: 35px; border-top: 1px solid var(--line); }
+.footer-main { display: flex; align-items: center; gap: 25px; padding-bottom: 28px; }
+.footer-main > p { font-size: 10px; color: #8793a4; margin: 0; }
+.footer-links { display: flex; gap: 20px; margin-left: auto; flex-wrap: wrap; }
+.footer-links a { font-size: 10px; color: #68768b; }
+.footer-links a:hover { color: var(--blue); }
+.footer-bottom {
+  border-top: 1px solid #edf0f5;
+  display: flex; justify-content: space-between; gap: 20px;
+  padding: 17px 0; color: #929dad; font-size: 9px;
+}
+.footer-disclaimer { font-size: 9px; color: #a0a9b7; padding-bottom: 20px; line-height: 1.8; }
+
+/* ─── Empty / No Results ─────────────────────────────────────────────────── */
+.no-results {
+  text-align: center; padding: 48px 24px; display: none;
+  flex-direction: column; align-items: center; gap: 10px;
+}
+.no-results.show { display: flex; }
+.no-results-icon { font-size: 32px; margin-bottom: 4px; }
+.no-results h3 { font-size: 16px; color: var(--navy); margin: 0; }
+.no-results p { font-size: 12px; color: var(--muted); margin: 0; }
+
+/* ─── Detail placeholder ─────────────────────────────────────────────────── */
+.detail-placeholder {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; min-height: 500px; gap: 12px; padding: 48px 24px; text-align: center;
+}
+.placeholder-icon { font-size: 48px; opacity: .3; margin-bottom: 4px; }
+.placeholder-title { font-family: Manrope, sans-serif; font-size: 18px; font-weight: 700; color: var(--navy); margin: 0; }
+.placeholder-sub { font-size: 12px; color: var(--muted); margin: 0; max-width: 280px; line-height: 1.7; }
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .skills-layout { grid-template-columns: 280px 1fr; }
+  .detail-stats { grid-template-columns: repeat(2, 1fr); }
+  .platform-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 800px) {
+  .skills-layout { grid-template-columns: 1fr; }
+  .skills-sidebar { overflow-x: auto; padding-bottom: 4px; }
+  .domain-list { flex-direction: row; gap: 10px; }
+  .domain-card { min-width: 230px; flex-shrink: 0; }
+  .detail-header { padding: 20px; }
+  .detail-stats { padding: 16px 20px; }
+  .detail-body { padding: 18px 20px; }
+  .cta-card { flex-direction: column; padding: 32px 24px; }
+  .cta-actions { width: 100%; }
+}
+
+@media (max-width: 720px) {
+  .container { width: min(100% - 34px, 560px); }
+  .site-header { height: 70px; }
+  .menu-toggle { display: block; }
+  .main-nav {
+    display: none; position: absolute; top: 69px; left: 0; right: 0;
+    background: #0f172a; padding: 15px 22px 22px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 16px 24px rgba(0,0,0,.3);
+    flex-direction: column; align-items: stretch; gap: 0; z-index: 99;
+  }
+  .main-nav.open { display: flex; }
+  .nav-link { padding: 12px 4px; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .nav-cta { text-align: center; margin-top: 13px; }
+  .skills-hero { padding: 56px 0 48px; }
+  .skills-hero h1 { font-size: 36px; }
+  .hero-search-wrap { max-width: 100%; }
+  .detail-stats { grid-template-columns: repeat(2,1fr); gap: 8px; }
+  .footer-main { flex-wrap: wrap; gap: 15px; }
+  .footer-links { width: 100%; margin-left: 0; gap: 13px 18px; }
+  .footer-bottom { flex-direction: column; gap: 7px; }
+  .section-heading-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .platforms-table th, .platforms-table td { padding: 10px 12px; }
+  .cta-card { padding: 28px 20px; }
+  .cta-copy h2 { font-size: 26px; }
+}
+
+@media (max-width: 480px) {
+  .detail-stats { grid-template-columns: 1fr 1fr; }
+  .domain-card { min-width: 200px; }
+  .hero-filter-pills { gap: 6px; }
+}
+
+@media print {
+  .site-header, .announcement, .hero-search-row, .hero-filter-pills,
+  .cta-section, .site-footer, .menu-toggle { display: none !important; }
+  body { color: #000; }
+  .detail-panel { border: 1px solid #ccc; border-radius: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+}
+  </style>
+</head>
+<body>
+
+<!-- ── Announcement Bar ──────────────────────────────────────────────── -->
+<div class="announcement">
+  <div class="container announcement-inner">
+    <span class="announcement-dot" aria-hidden="true"></span>
+    <p>Discover in-demand remote skills and start earning from anywhere.</p>
+    <a href="index.html#jobs">Browse open jobs <span aria-hidden="true">→</span></a>
+  </div>
+</div>
+
+<!-- ── Navbar ────────────────────────────────────────────────────────── -->
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html" aria-label="NS WorkLink home">
+      <span class="brand-mark" aria-hidden="true"><span>NS</span><i></i></span>
+      <span class="brand-copy">
+        <strong>NS <b>WorkLink</b></strong>
+        <small>Connect. Work. Grow.</small>
+      </span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Open navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="index.html#jobs">Find Jobs</a>
+      <a class="nav-link active" href="skills.html">Remote Skills</a>
+      <a class="nav-link" href="resume.html">CV Builder</a>
+      <a class="nav-link" href="interview.html">Mock Interviews</a>
+      <a class="nav-cta" href="index.html#jobs">Find Jobs <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── Hero ──────────────────────────────────────────────────────────── -->
+<section class="skills-hero" aria-label="Skills hub hero">
+  <div class="hero-dot-grid" aria-hidden="true"></div>
+  <div class="hero-glow-left" aria-hidden="true"></div>
+  <div class="hero-glow-right" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-eyebrow" aria-hidden="true">
+      <span class="hero-eyebrow-dot"></span>
+      Remote Work &amp; Freelance Career Roadmap
+    </div>
+    <h1>In-Demand Skills for<br><span>Remote &amp; Freelance Careers</span></h1>
+    <p class="hero-sub">
+      Explore 6 skill domains shaping remote work in 2024. Find where to learn, where to get hired, what to charge, and how to build a portfolio that wins clients.
+    </p>
+    <div class="hero-search-row">
+      <div class="hero-search-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="search" id="heroSearch" placeholder="Search skill domains…" autocomplete="off" aria-label="Search skill domains">
+      </div>
+    </div>
+    <div class="hero-filter-pills" role="group" aria-label="Filter by category">
+      <button class="filter-pill active" data-cat="All">All Domains</button>
+      <button class="filter-pill" data-cat="AI &amp; Prompting">AI &amp; Prompting</button>
+      <button class="filter-pill" data-cat="Data &amp; Analytics">Data &amp; Analytics</button>
+      <button class="filter-pill" data-cat="Operations &amp; Support">Operations &amp; Support</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── Main Shell ─────────────────────────────────────────────────────── -->
+<section class="skills-shell">
+  <div class="container">
+    <div class="skills-layout">
+
+      <!-- Left Sidebar -->
+      <aside class="skills-sidebar" aria-label="Skill domains list">
+        <p class="sidebar-title">Skill Domains</p>
+        <div class="domain-list" id="domainList" role="list">
+          <!-- Injected by JS -->
+        </div>
+        <div class="no-results" id="noResults" role="alert">
+          <div class="no-results-icon">🔍</div>
+          <h3>No matches</h3>
+          <p>Try a different keyword or category.</p>
+        </div>
+
+        <!-- Earnings Calculator -->
+        <div class="calc-card" aria-label="Earnings calculator">
+          <p class="calc-title">💰 Earnings Calculator</p>
+          <p class="calc-sub">Estimate your freelance income</p>
+          <label class="calc-label" for="rateSlider">
+            Hourly Rate <span id="rateDisplay">$45/hr</span>
+          </label>
+          <input class="calc-slider" type="range" id="rateSlider"
+                 min="15" max="120" value="45" step="1"
+                 aria-label="Hourly rate slider">
+          <label class="calc-label" for="hoursSlider">
+            Weekly Hours <span id="hoursDisplay">20 hrs</span>
+          </label>
+          <input class="calc-slider" type="range" id="hoursSlider"
+                 min="5" max="45" value="20" step="1"
+                 aria-label="Weekly hours slider">
+          <div class="calc-outputs">
+            <div class="calc-output">
+              <div class="calc-output-label">Monthly Est.</div>
+              <div class="calc-output-val" id="monthlyOut">$3,600</div>
+            </div>
+            <div class="calc-output">
+              <div class="calc-output-label">Annual Est.</div>
+              <div class="calc-output-val" id="annualOut">$43,200</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Detail Panel -->
+      <main class="detail-panel" id="detailPanel" aria-live="polite" aria-label="Skill domain details">
+        <div class="detail-placeholder" id="detailPlaceholder">
+          <div class="placeholder-icon" aria-hidden="true">👆</div>
+          <p class="placeholder-title">Select a skill domain</p>
+          <p class="placeholder-sub">Click any card on the left to explore earnings, platforms, learning resources, and portfolio projects.</p>
+        </div>
+      </main>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Platforms Directory ────────────────────────────────────────────── -->
+<section class="platforms-section" aria-labelledby="platformsHeading">
+  <div class="container">
+    <div class="section-heading-row">
+      <div>
+        <span class="section-kicker">Where to Get Hired</span>
+        <h2 id="platformsHeading">Top Remote Work Platforms</h2>
+      </div>
+      <p>Vetted platforms with real clients, reliable payouts, and global reach for remote freelancers.</p>
+    </div>
+    <div class="platforms-table-wrap" role="region" aria-label="Platforms directory table">
+      <table class="platforms-table">
+        <thead>
+          <tr>
+            <th scope="col">Platform</th>
+            <th scope="col">Best For</th>
+            <th scope="col">Payout Method</th>
+            <th scope="col">Trust Rating</th>
+            <th scope="col">Description</th>
+            <th scope="col">Link</th>
+          </tr>
+        </thead>
+        <tbody id="platformsTableBody">
+          <!-- Injected by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────────────────────── -->
+<section class="cta-section" aria-label="Call to action">
+  <div class="container">
+    <div class="cta-card">
+      <div class="cta-orb cta-orb-1" aria-hidden="true"></div>
+      <div class="cta-orb cta-orb-2" aria-hidden="true"></div>
+      <div class="cta-copy">
+        <p class="cta-kicker">Ready to Start?</p>
+        <h2>Find remote work<br>that fits your skills.</h2>
+        <p>Browse open freelance, remote, and contract opportunities curated by NS WorkLink.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="button button-light" href="index.html#jobs">Browse Open Jobs <span aria-hidden="true">↗</span></a>
+        <span class="cta-note">New listings added regularly</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="container footer-main">
+    <a class="brand footer-brand" href="index.html" aria-label="NS WorkLink home">
+      <span class="brand-mark" aria-hidden="true"><span>NS</span><i></i></span>
+      <span class="brand-copy">
+        <strong>NS <b>WorkLink</b></strong>
+        <small>Connect. Work. Grow.</small>
+      </span>
+    </a>
+    <p>Connecting ambition with opportunity.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#jobs">Find Jobs</a>
+      <a href="skills.html">Remote Skills</a>
+      <a href="resume.html">CV Builder</a>
+      <a href="interview.html">Mock Interviews</a>
+      <a href="mailto:hello@nsworklink.com">Contact</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© <span id="currentYear"></span> NS WorkLink. All rights reserved.</span>
+    <span>Skills open doors. You take the next step.</span>
+  </div>
+  <div class="container footer-disclaimer">
+    Platform listings and earnings figures shown here are for informational purposes only. Actual earnings vary by skill level, market conditions, and individual performance.
+  </div>
+</footer>
+
+<!-- ── Data & Logic ───────────────────────────────────────────────────── -->
+<script>
+/* ════════════════════════════════════════════════════════════
+   DATA
+════════════════════════════════════════════════════════════ */
+const SKILL_DOMAINS = [
+  {
+    id: "prompt-engineering",
+    title: "Prompt Engineering & AI Ops",
+    category: "AI & Prompting",
+    icon: "🧠",
+    iconBg: "#e8eeff",
+    tagline: "Design high-precision prompts that unlock maximum LLM output quality for real clients.",
+    description: "Prompt Engineers design, test, and iterate on instruction sets that reliably guide AI models like GPT-4, Claude, and Gemini to produce accurate, structured, and business-ready outputs.",
+    hourlyRate: "$35 – $95 / hr",
+    monthlyAvg: "$4,200 – $9,800",
+    globalDemand: "Explosive Growth",
+    entryDifficulty: "Low Barrier",
+    learningCurve: "2–4 weeks",
+    jobSearchKeyword: "Prompt Engineer",
+    keyProficiencies: [
+      "Chain-of-thought prompting",
+      "Few-shot and zero-shot techniques",
+      "Structured output formatting (JSON, XML)",
+      "Model evaluation and benchmarking",
+      "System instruction architecture"
+    ],
+    coreTools: ["ChatGPT","Claude","Gemini","LangChain","PromptLayer","Weights & Biases"],
+    platformsToFindWork: [
+      { name:"Scale AI", url:"https://scale.com/jobs", note:"RLHF and prompt evaluation contracts. High volume, rigorous QA.", badge:"Top Payer", rateHint:"$25–$55/hr" },
+      { name:"Upwork", url:"https://www.upwork.com/", note:"Largest freelance marketplace. Build a strong profile with AI specialization.", rateHint:"$30–$90/hr" },
+      { name:"Toptal", url:"https://www.toptal.com/", note:"Elite vetting process. Access to Fortune 500 AI projects.", badge:"Elite Network", rateHint:"$60–$120/hr" },
+      { name:"Appen", url:"https://appen.com/", note:"Global AI training data projects. Flexible hours for RLHF annotation.", rateHint:"$14–$30/hr" }
+    ],
+    whereToLearn: [
+      { title:"ChatGPT Prompt Engineering for Developers", provider:"DeepLearning.AI", url:"https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/", isFree:true },
+      { title:"Prompt Engineering Guide", provider:"DAIR.AI", url:"https://www.promptingguide.ai/", isFree:true },
+      { title:"Advanced Prompt Engineering Certification", provider:"Coursera / Vanderbilt", url:"https://www.coursera.org/learn/prompt-engineering", isFree:false }
+    ],
+    portfolioProject: {
+      title:"AI Content Automation Pipeline",
+      description:"Build a prompt-driven pipeline that generates, reviews, and formats structured blog content for a niche topic.",
+      deliverable:"A documented prompt template library with 10+ tested prompts and output examples."
+    },
+    sampleSnippet: `SYSTEM: You are an expert technical writer specializing in developer documentation.
+USER: Rewrite the following API description to be concise, scannable, and aimed at a senior backend engineer audience. Remove all filler phrases. Output as: 1) One-sentence summary 2) Parameters table 3) Usage example in Python.
+
+INPUT: [paste raw API docs here]`
+  },
+  {
+    id: "ai-automation",
+    title: "AI Workflow Automation",
+    category: "AI & Prompting",
+    icon: "⚡",
+    iconBg: "#fff0df",
+    tagline: "Build no-code AI automations that eliminate repetitive work and command premium client rates.",
+    description: "AI Automation specialists use platforms like Make.com, Zapier, and n8n to build intelligent workflows that connect apps, trigger actions from AI outputs, and automate business processes end-to-end.",
+    hourlyRate: "$40 – $110 / hr",
+    monthlyAvg: "$5,500 – $12,000",
+    globalDemand: "Explosive Growth",
+    entryDifficulty: "Low–Medium",
+    learningCurve: "3–6 weeks",
+    jobSearchKeyword: "AI Automation",
+    keyProficiencies: [
+      "Webhook triggers and API integrations",
+      "Conditional logic and error handling",
+      "LLM integration via API calls",
+      "CRM and database automation",
+      "Automated reporting pipelines"
+    ],
+    coreTools: ["Make.com","Zapier","n8n","Airtable","Notion API","OpenAI API","Google Sheets"],
+    platformsToFindWork: [
+      { name:"Upwork", url:"https://www.upwork.com/", note:"High demand for Make.com and Zapier specialists. Create a niche automation profile.", rateHint:"$35–$85/hr" },
+      { name:"Fiverr Pro", url:"https://pro.fiverr.com/", note:"Package automation services as productized offers for predictable revenue.", badge:"Package Model", rateHint:"$200–$2,000/project" },
+      { name:"Toptal", url:"https://www.toptal.com/", note:"Enterprise automation contracts with large brands.", rateHint:"$75–$150/hr" },
+      { name:"PeoplePerHour", url:"https://www.peopleperhour.com/", note:"European-focused marketplace with strong demand for automation freelancers.", rateHint:"$30–$80/hr" }
+    ],
+    whereToLearn: [
+      { title:"Make.com Academy", provider:"Make.com Official", url:"https://academy.make.com/", isFree:true },
+      { title:"Zapier University", provider:"Zapier Official", url:"https://zapier.com/university", isFree:true },
+      { title:"AI Automation Agency Masterclass", provider:"Udemy", url:"https://www.udemy.com/", isFree:false }
+    ],
+    portfolioProject: {
+      title:"Lead Nurture Automation System",
+      description:"Build a system where a form submission triggers AI email drafting, CRM entry, Slack notification, and follow-up scheduling — zero human input.",
+      deliverable:"A working Make.com scenario export with documentation of each module's logic."
+    },
+    sampleSnippet: `// Make.com Webhook → OpenAI → Google Sheets automation pattern:
+// 1. Webhook receives form data {name, email, inquiry}
+// 2. OpenAI GPT-4o summarizes inquiry in 1 sentence + suggests response category
+// 3. Google Sheets row appended: timestamp, name, email, AI summary, category
+// 4. If category === 'Enterprise': Slack message sent to #sales-alerts
+// 5. Automated reply email sent via Gmail with personalized AI-drafted body`
+  },
+  {
+    id: "data-annotation",
+    title: "Data Annotation & RLHF",
+    category: "AI & Prompting",
+    icon: "🏷️",
+    iconBg: "#e0f8ed",
+    tagline: "Train the world's most powerful AI models from anywhere — no degree required.",
+    description: "Data annotators and RLHF (Reinforcement Learning from Human Feedback) specialists label, rank, and critique AI-generated outputs to improve model accuracy. This is the backbone of every major LLM training pipeline.",
+    hourlyRate: "$14 – $45 / hr",
+    monthlyAvg: "$1,800 – $5,200",
+    globalDemand: "High Demand",
+    entryDifficulty: "Entry Level",
+    learningCurve: "1–2 weeks",
+    jobSearchKeyword: "Data Annotation",
+    keyProficiencies: [
+      "Text classification and sentiment labeling",
+      "Image bounding box annotation",
+      "Response ranking and preference comparison",
+      "Quality assurance and rater calibration",
+      "Domain-specific annotation (legal, medical, code)"
+    ],
+    coreTools: ["Scale AI platform","Appen platform","Labelbox","Amazon Mechanical Turk","CVAT","Surge AI"],
+    platformsToFindWork: [
+      { name:"Scale AI", url:"https://scale.com/jobs", note:"Premium RLHF contracts. Highest pay for specialized domain knowledge.", badge:"Highest Pay", rateHint:"$20–$45/hr" },
+      { name:"Appen", url:"https://appen.com/", note:"Large volume of annotation projects across 180+ countries.", rateHint:"$14–$25/hr" },
+      { name:"Surge AI", url:"https://www.surgehq.ai/", note:"Quality-focused platform with US-eligible gig workers preferred.", rateHint:"$16–$30/hr" },
+      { name:"Toloka", url:"https://toloka.ai/", note:"Yandex-backed global annotation platform with consistent task volume.", rateHint:"$10–$20/hr" }
+    ],
+    whereToLearn: [
+      { title:"Data Annotation Fundamentals", provider:"Coursera / Google", url:"https://www.coursera.org/", isFree:true },
+      { title:"RLHF: Training Language Models", provider:"Hugging Face", url:"https://huggingface.co/learn", isFree:true },
+      { title:"AI Data Labeling Certification", provider:"Scale AI", url:"https://scale.com/", isFree:false }
+    ],
+    portfolioProject: {
+      title:"RLHF Preference Dataset Sample",
+      description:"Create a 50-example preference dataset comparing two AI-generated responses per prompt, with detailed rubric-based rankings.",
+      deliverable:"A structured JSON dataset + written annotation guidelines document."
+    },
+    sampleSnippet: `// RLHF Rating Rubric Example:
+{
+  "prompt": "Explain quantum entanglement to a 10-year-old",
+  "response_A": "...",
+  "response_B": "...",
+  "preferred": "A",
+  "reasoning": "Response A uses a concrete analogy (linked dice), avoids jargon, and concludes with an engaging question. Response B introduces the word 'correlation' which is not accessible at the target reading level.",
+  "criteria_scores": {
+    "accuracy":          {"A": 5, "B": 5},
+    "clarity":           {"A": 5, "B": 3},
+    "age_appropriateness":{"A": 5, "B": 2}
+  }
+}`
+  },
+  {
+    id: "data-analytics",
+    title: "SQL & Data Analytics",
+    category: "Data & Analytics",
+    icon: "📊",
+    iconBg: "#e8eeff",
+    tagline: "Extract insights from raw data using SQL, Python, and BI dashboards clients pay premium rates for.",
+    description: "Data analysts transform raw business data into actionable reports, KPI dashboards, and strategic recommendations. SQL is the universal language of data, used at every company from startups to Fortune 500s.",
+    hourlyRate: "$30 – $85 / hr",
+    monthlyAvg: "$4,000 – $9,500",
+    globalDemand: "High Demand",
+    entryDifficulty: "Medium",
+    learningCurve: "4–8 weeks",
+    jobSearchKeyword: "Data Analyst",
+    keyProficiencies: [
+      "Advanced SQL (window functions, CTEs, subqueries)",
+      "Python pandas / NumPy for data wrangling",
+      "Tableau / Power BI dashboard design",
+      "Statistical hypothesis testing",
+      "Data pipeline design and ETL processes"
+    ],
+    coreTools: ["PostgreSQL","BigQuery","Python","Tableau","Power BI","dbt","Apache Airflow","Looker"],
+    platformsToFindWork: [
+      { name:"Upwork", url:"https://www.upwork.com/", note:"Strong demand for SQL specialists and BI dashboard builders.", rateHint:"$30–$75/hr" },
+      { name:"Toptal", url:"https://www.toptal.com/", note:"Enterprise data analytics contracts. Requires strong SQL and Python assessment.", badge:"Enterprise", rateHint:"$60–$120/hr" },
+      { name:"Turing", url:"https://www.turing.com/", note:"AI-matched US enterprise contracts for data professionals.", rateHint:"$50–$100/hr" },
+      { name:"Freelancer.com", url:"https://www.freelancer.com/", note:"High volume of one-off data cleaning and analysis projects.", rateHint:"$20–$55/hr" }
+    ],
+    whereToLearn: [
+      { title:"SQL for Data Science", provider:"UC Davis / Coursera", url:"https://www.coursera.org/learn/sql-for-data-science", isFree:false },
+      { title:"Mode SQL Tutorial", provider:"Mode Analytics", url:"https://mode.com/sql-tutorial/", isFree:true },
+      { title:"Google Data Analytics Certificate", provider:"Google / Coursera", url:"https://www.coursera.org/professional-certificates/google-data-analytics", isFree:false }
+    ],
+    portfolioProject: {
+      title:"E-Commerce Sales Dashboard",
+      description:"Using a public dataset (e.g. Kaggle retail data), write SQL queries to calculate monthly revenue trends, top-performing SKUs, and customer cohort retention.",
+      deliverable:"A published Tableau Public dashboard + documented SQL query file on GitHub."
+    },
+    sampleSnippet: `-- Monthly revenue trend with YoY comparison
+WITH monthly_revenue AS (
+  SELECT
+    DATE_TRUNC('month', order_date) AS month,
+    SUM(order_total)                AS revenue,
+    COUNT(DISTINCT customer_id)     AS unique_customers
+  FROM orders
+  WHERE status = 'completed'
+  GROUP BY 1
+),
+prev_year AS (
+  SELECT
+    month,
+    revenue,
+    LAG(revenue, 12) OVER (ORDER BY month) AS prev_year_revenue
+  FROM monthly_revenue
+)
+SELECT
+  month,
+  revenue,
+  ROUND((revenue - prev_year_revenue) / prev_year_revenue * 100, 1) AS yoy_growth_pct
+FROM prev_year
+ORDER BY month DESC;`
+  },
+  {
+    id: "virtual-assistant",
+    title: "Executive Virtual Assistant",
+    category: "Operations & Support",
+    icon: "🗂️",
+    iconBg: "#ede9ff",
+    tagline: "Become the remote right hand that busy founders and executives cannot live without.",
+    description: "Executive Virtual Assistants manage calendars, inboxes, travel logistics, research tasks, and operations for high-value clients worldwide. The highest-paid VAs specialise in a niche (legal, tech startups, real estate) and act as a true operational partner.",
+    hourlyRate: "$18 – $55 / hr",
+    monthlyAvg: "$2,500 – $6,500",
+    globalDemand: "High Demand",
+    entryDifficulty: "Entry Level",
+    learningCurve: "1–3 weeks",
+    jobSearchKeyword: "Virtual Assistant",
+    keyProficiencies: [
+      "Calendar and inbox zero management",
+      "Travel planning and expense reporting",
+      "Research synthesis and briefing documents",
+      "CRM data hygiene and pipeline tracking",
+      "Project coordination across time zones"
+    ],
+    coreTools: ["Google Workspace","Notion","Trello","Slack","Calendly","HubSpot","Loom","LastPass"],
+    platformsToFindWork: [
+      { name:"Belay", url:"https://belaysolutions.com/", note:"Premium US-focused VA platform. Clients are established executives and founders.", badge:"Premium", rateHint:"$25–$45/hr" },
+      { name:"Time Etc", url:"https://web.timeetc.com/", note:"UK and US clients with consistent long-term VA contracts.", rateHint:"$18–$30/hr" },
+      { name:"Upwork", url:"https://www.upwork.com/", note:"Largest marketplace for VA work globally. Specialise to stand out.", rateHint:"$15–$50/hr" },
+      { name:"Zirtual", url:"https://www.zirtual.com/", note:"Dedicated VA matching for US-based startup founders.", rateHint:"$22–$40/hr" }
+    ],
+    whereToLearn: [
+      { title:"Virtual Assistant Foundations", provider:"LinkedIn Learning", url:"https://www.linkedin.com/learning/", isFree:false },
+      { title:"Notion Certified Creator", provider:"Notion Academy", url:"https://www.notion.so/", isFree:true },
+      { title:"Google Workspace Admin Certification", provider:"Google", url:"https://workspace.google.com/", isFree:false }
+    ],
+    portfolioProject: {
+      title:"Executive Operations Playbook",
+      description:"Create a Notion workspace template for a fictional tech startup executive: weekly review system, meeting notes template, inbox zero workflow, and travel planning SOP.",
+      deliverable:"A shareable Notion workspace link with documented SOPs and system diagrams."
+    },
+    sampleSnippet: `// Morning Briefing Template (Notion / Google Docs)
+
+📅 DATE: [Auto-inserted]
+
+🎯 TODAY'S PRIORITIES (Top 3 — Non-Negotiable):
+1. [High-impact task aligned to Q4 OKR]
+2. [Deadline-driven commitment]
+3. [Relationship investment / stakeholder communication]
+
+📬 INBOX SUMMARY (Zero-Inbox Target by 10:00 AM):
+- Action required: [n] emails
+- Awaiting reply:  [n] threads
+- FYI / Reading queue: [n] items
+
+📆 CALENDAR PREVIEW:
+09:00 – [Meeting name] – [Prep: 2-pager attached]
+14:00 – [Deep work block] – DND
+16:30 – [External call] – dial-in link: [link]
+
+⚡ QUICK WINS (< 15 mins each):
+• [Admin task 1]
+• [Expense report submission]
+• [Follow-up on [name]'s proposal]`
+  },
+  {
+    id: "data-entry",
+    title: "Data Entry & Spreadsheet Specialist",
+    category: "Operations & Support",
+    icon: "📋",
+    iconBg: "#e0f8ed",
+    tagline: "Build a sustainable remote income stream with consistent, high-accuracy data work.",
+    description: "Data entry specialists maintain databases, clean spreadsheets, transfer information between systems, and ensure data quality. Advanced specialists automate repetitive entry tasks using macros and scripts, commanding significantly higher rates.",
+    hourlyRate: "$12 – $35 / hr",
+    monthlyAvg: "$1,500 – $4,200",
+    globalDemand: "High Demand",
+    entryDifficulty: "Entry Level",
+    learningCurve: "< 1 week",
+    jobSearchKeyword: "Data Entry",
+    keyProficiencies: [
+      "High-accuracy 10-key typing and form entry",
+      "Advanced Excel / Google Sheets (VLOOKUP, pivot tables)",
+      "Database maintenance and deduplication",
+      "OCR tools and document digitization",
+      "Data validation and error-checking protocols"
+    ],
+    coreTools: ["Microsoft Excel","Google Sheets","Airtable","DocuSign","Adobe Acrobat","OpenRefine","Typeform"],
+    platformsToFindWork: [
+      { name:"Upwork", url:"https://www.upwork.com/", note:"Huge volume of data entry contracts. Specialise in a vertical (e.g. e-commerce product data) to increase rates.", rateHint:"$10–$30/hr" },
+      { name:"Clickworker", url:"https://www.clickworker.com/", note:"Microtask platform with consistent data processing and categorisation work.", rateHint:"$10–$18/hr" },
+      { name:"Fiverr", url:"https://www.fiverr.com/", note:"Productize data entry as fixed-price gigs (e.g. 500 rows = $50).", badge:"Productize", rateHint:"$50–$500/gig" },
+      { name:"Amazon MTurk", url:"https://www.mturk.com/", note:"High task volume but competitive. Best used as a portfolio-builder.", rateHint:"$8–$15/hr" }
+    ],
+    whereToLearn: [
+      { title:"Excel Skills for Business", provider:"Macquarie University / Coursera", url:"https://www.coursera.org/specializations/excel", isFree:false },
+      { title:"Google Sheets Full Course", provider:"freeCodeCamp", url:"https://www.youtube.com/watch?v=N2opj8XzYBY", isFree:true },
+      { title:"Microsoft Office Specialist (MOS) Excel", provider:"Microsoft", url:"https://learn.microsoft.com/en-us/certifications/", isFree:false }
+    ],
+    portfolioProject: {
+      title:"E-Commerce Product Database Cleaner",
+      description:"Take a messy 500-row product spreadsheet (use a Kaggle dataset), remove duplicates, standardise categories, fill missing values, and produce a clean export.",
+      deliverable:"Before/after spreadsheet + a written data cleaning methodology document."
+    },
+    sampleSnippet: `// Google Sheets: Advanced data cleaning formula set
+
+// 1. Remove leading/trailing whitespace from all text cells:
+=TRIM(A2)
+
+// 2. Standardize email to lowercase:
+=LOWER(TRIM(B2))
+
+// 3. Flag duplicate entries in column C:
+=IF(COUNTIF($C$2:$C$1000,C2)>1,"DUPLICATE","Unique")
+
+// 4. Extract domain from email address:
+=MID(B2,FIND("@",B2)+1,LEN(B2))
+
+// 5. Conditional: Mark rows missing critical fields:
+=IF(OR(A2="",B2="",C2=""),"INCOMPLETE","OK")
+
+// Use these in a cleaning pipeline tab before importing to your master database.`
+  }
+];
+
+const PLATFORMS_DIRECTORY = [
+  { name:"Upwork", bestFor:"All skills", payout:"Direct Bank, PayPal, Wire", trustScore:"9.1/10", description:"World's largest freelance marketplace. Build a profile, complete jobs, earn Top Rated status.", link:"https://www.upwork.com/" },
+  { name:"Toptal", bestFor:"Senior Engineers, Designers, Finance", payout:"Wire Transfer, PayPal", trustScore:"9.5/10", description:"Top 3% vetting. Access Fortune 500 and funded startup clients.", link:"https://www.toptal.com/" },
+  { name:"Scale AI", bestFor:"RLHF, Data Annotation, Prompt Engineering", payout:"PayPal, Payoneer", trustScore:"9.3/10", description:"Leading AI training data platform. Contracts with OpenAI, Meta, Microsoft.", link:"https://scale.com/" },
+  { name:"Appen", bestFor:"Data Annotation, Search Evaluation", payout:"PayPal, Bank Transfer", trustScore:"8.7/10", description:"Global platform active in 180+ countries. Consistent annotation project volume.", link:"https://appen.com/" },
+  { name:"Fiverr Pro", bestFor:"Creative, Automation, Writing", payout:"PayPal, Bank, Payoneer", trustScore:"8.8/10", description:"Productize your skills as fixed-price service packages.", link:"https://pro.fiverr.com/" },
+  { name:"Turing", bestFor:"Data Analysts, AI Developers", payout:"Direct Wire, Payoneer", trustScore:"9.2/10", description:"AI-vetted platform connecting global analysts with US enterprise contracts.", link:"https://www.turing.com/" }
+];
+
+/* ════════════════════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════════════════════ */
+let selectedId   = null;
+let searchQuery  = '';
+let activeFilter = 'All';
+
+/* ════════════════════════════════════════════════════════════
+   HELPERS
+════════════════════════════════════════════════════════════ */
+function esc(str) {
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function fmt(n) {
+  return new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', maximumFractionDigits:0 }).format(n);
+}
+
+/* ════════════════════════════════════════════════════════════
+   RENDER: LEFT SIDEBAR CARDS
+════════════════════════════════════════════════════════════ */
+function getFilteredDomains() {
+  return SKILL_DOMAINS.filter(d => {
+    const matchesCat  = activeFilter === 'All' || d.category === activeFilter;
+    const matchesSearch = !searchQuery ||
+      d.title.toLowerCase().includes(searchQuery) ||
+      d.category.toLowerCase().includes(searchQuery) ||
+      d.tagline.toLowerCase().includes(searchQuery);
+    return matchesCat && matchesSearch;
+  });
+}
+
+function renderSidebar() {
+  const list    = document.getElementById('domainList');
+  const noRes   = document.getElementById('noResults');
+  const domains = getFilteredDomains();
+
+  list.innerHTML = '';
+
+  if (domains.length === 0) {
+    noRes.classList.add('show');
+    return;
+  }
+  noRes.classList.remove('show');
+
+  domains.forEach(d => {
+    const demandClass = d.globalDemand === 'Explosive Growth' ? 'explosive' : 'high';
+    const isSelected  = d.id === selectedId;
+
+    const card = document.createElement('div');
+    card.className = 'domain-card' + (isSelected ? ' selected' : '');
+    card.setAttribute('role', 'listitem');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    card.setAttribute('aria-label', d.title);
+    card.dataset.id = d.id;
+
+    card.innerHTML = `
+      <div class="domain-card-top">
+        <div class="domain-icon" style="background:${esc(d.iconBg)}" aria-hidden="true">${d.icon}</div>
+        <div class="domain-card-info">
+          <div class="domain-cat">${esc(d.category)}</div>
+          <h3 class="domain-title">${esc(d.title)}</h3>
+        </div>
+      </div>
+      <div class="domain-card-badges">
+        <span class="demand-badge ${demandClass}">${esc(d.globalDemand)}</span>
+        <span class="rate-badge">${esc(d.hourlyRate)}</span>
+        <span class="platforms-badge">${d.platformsToFindWork.length} platforms</span>
+      </div>
+    `;
+
+    card.addEventListener('click', () => selectDomain(d.id));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectDomain(d.id); } });
+    list.appendChild(card);
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   RENDER: RIGHT DETAIL PANEL
+════════════════════════════════════════════════════════════ */
+function renderDetail(d) {
+  const panel = document.getElementById('detailPanel');
+
+  // Build platform cards HTML
+  const platformsHTML = d.platformsToFindWork.map(p => `
+    <div class="platform-card">
+      <div class="platform-card-top">
+        <span class="platform-name">${esc(p.name)}</span>
+        ${p.badge ? `<span class="platform-badge">${esc(p.badge)}</span>` : ''}
+      </div>
+      <p class="platform-note">${esc(p.note)}</p>
+      <div class="platform-footer">
+        <span class="platform-rate">${esc(p.rateHint)}</span>
+        <a class="platform-link" href="${esc(p.url)}" target="_blank" rel="noopener">
+          Visit ↗
+        </a>
+      </div>
+    </div>
+  `).join('');
+
+  // Build learn cards HTML
+  const learnHTML = d.whereToLearn.map(l => `
+    <div class="learn-card">
+      <div class="learn-icon ${l.isFree ? 'learn-free' : 'learn-paid'}" aria-hidden="true">
+        ${l.isFree ? '🎓' : '📜'}
+      </div>
+      <div class="learn-info">
+        <div class="learn-title">${esc(l.title)}</div>
+        <div class="learn-provider">${esc(l.provider)}</div>
+      </div>
+      <div class="learn-badges">
+        ${l.isFree ? '<span class="badge-free">Free</span>' : '<span class="badge-paid">Paid</span>'}
+      </div>
+      <a class="learn-link" href="${esc(l.url)}" target="_blank" rel="noopener">Learn ↗</a>
+    </div>
+  `).join('');
+
+  // Build proficiencies
+  const profsHTML = d.keyProficiencies.map(p => `<li>${esc(p)}</li>`).join('');
+
+  // Build tools chips
+  const toolsHTML = d.coreTools.map(t => `<span class="tool-chip">${esc(t)}</span>`).join('');
+
+  // Determine snippet language label
+  const snippetLang = d.sampleSnippet.startsWith('SYSTEM:') ? 'Prompt Template' :
+                      d.sampleSnippet.startsWith('--') ? 'SQL' :
+                      d.sampleSnippet.startsWith('//') ? 'JavaScript / Pseudocode' :
+                      d.sampleSnippet.startsWith('=') ? 'Google Sheets' :
+                      d.sampleSnippet.startsWith('{') ? 'JSON' : 'Template';
+
+  panel.innerHTML = `
+    <div class="detail-header">
+      <div class="detail-header-top">
+        <div class="detail-icon" style="background:${esc(d.iconBg)}" aria-hidden="true">${d.icon}</div>
+        <div class="detail-meta">
+          <div class="detail-cat">${esc(d.category)}</div>
+          <h2 class="detail-title">${esc(d.title)}</h2>
+          <span class="detail-difficulty">${esc(d.entryDifficulty)}</span>
+        </div>
+      </div>
+      <p class="detail-tagline">${esc(d.tagline)}</p>
+    </div>
+
+    <div class="detail-stats" role="list" aria-label="Key statistics">
+      <div class="stat-box" role="listitem">
+        <div class="stat-label">Hourly Rate</div>
+        <div class="stat-val green">${esc(d.hourlyRate)}</div>
+      </div>
+      <div class="stat-box" role="listitem">
+        <div class="stat-label">Monthly Average</div>
+        <div class="stat-val">${esc(d.monthlyAvg)}</div>
+      </div>
+      <div class="stat-box" role="listitem">
+        <div class="stat-label">Global Demand</div>
+        <div class="stat-val">${esc(d.globalDemand)}</div>
+      </div>
+      <div class="stat-box" role="listitem">
+        <div class="stat-label">Learning Curve</div>
+        <div class="stat-val">${esc(d.learningCurve)}</div>
+      </div>
+    </div>
+
+    <div class="detail-body">
+
+      <div class="detail-section">
+        <h3 class="detail-section-title">About This Skill</h3>
+        <p class="detail-description">${esc(d.description)}</p>
+      </div>
+
+      <div class="detail-section">
+        <h3 class="detail-section-title">Where to Find Work</h3>
+        <div class="platform-grid">${platformsHTML}</div>
+      </div>
+
+      <div class="detail-section">
+        <h3 class="detail-section-title">Where to Learn</h3>
+        <div class="learn-list">${learnHTML}</div>
+      </div>
+
+      <div class="detail-section">
+        <h3 class="detail-section-title">Key Proficiencies</h3>
+        <ul class="proficiency-list">${profsHTML}</ul>
+      </div>
+
+      <div class="detail-section">
+        <h3 class="detail-section-title">Core Tools</h3>
+        <div class="tools-row">${toolsHTML}</div>
+      </div>
+
+      <div class="detail-section">
+        <h3 class="detail-section-title">Portfolio Project</h3>
+        <div class="portfolio-box">
+          <div class="portfolio-box-title">📁 Project Brief</div>
+          <h4>${esc(d.portfolioProject.title)}</h4>
+          <p>${esc(d.portfolioProject.description)}</p>
+          <div class="portfolio-deliverable">${esc(d.portfolioProject.deliverable)}</div>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h3 class="detail-section-title">Sample Template / Snippet</h3>
+        <div class="snippet-wrap">
+          <div class="snippet-header">
+            <div class="snippet-dots" aria-hidden="true">
+              <span class="dot-red"></span>
+              <span class="dot-yellow"></span>
+              <span class="dot-green"></span>
+            </div>
+            <span class="snippet-lang">${esc(snippetLang)}</span>
+            <button class="copy-btn" data-snippet-id="${esc(d.id)}" aria-label="Copy code snippet">
+              Copy
+            </button>
+          </div>
+          <pre class="snippet-code" id="snippet-${esc(d.id)}">${esc(d.sampleSnippet)}</pre>
+        </div>
+      </div>
+
+    </div>
+  `;
+
+  // Attach copy button listener
+  const copyBtn = panel.querySelector('.copy-btn');
+  copyBtn.addEventListener('click', () => {
+    const code = d.sampleSnippet;
+    navigator.clipboard.writeText(code).then(() => {
+      copyBtn.textContent = 'Copied!';
+      copyBtn.classList.add('copied');
+      setTimeout(() => { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied'); }, 2000);
+    }).catch(() => {
+      // Fallback for environments without clipboard API
+      const ta = document.createElement('textarea');
+      ta.value = code; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      copyBtn.textContent = 'Copied!';
+      copyBtn.classList.add('copied');
+      setTimeout(() => { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied'); }, 2000);
+    });
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   RENDER: PLATFORMS TABLE
+════════════════════════════════════════════════════════════ */
+function renderPlatformsTable() {
+  const tbody = document.getElementById('platformsTableBody');
+  tbody.innerHTML = PLATFORMS_DIRECTORY.map(p => `
+    <tr>
+      <td><span class="table-platform-name">${esc(p.name)}</span></td>
+      <td>${esc(p.bestFor)}</td>
+      <td>${esc(p.payout)}</td>
+      <td><span class="trust-score">${esc(p.trustScore)}</span></td>
+      <td>${esc(p.description)}</td>
+      <td><a class="table-link-btn" href="${esc(p.link)}" target="_blank" rel="noopener">Visit ↗</a></td>
+    </tr>
+  `).join('');
+}
+
+/* ════════════════════════════════════════════════════════════
+   SELECT DOMAIN
+════════════════════════════════════════════════════════════ */
+function selectDomain(id) {
+  selectedId = id;
+  const domain = SKILL_DOMAINS.find(d => d.id === id);
+  if (!domain) return;
+  renderSidebar();
+  renderDetail(domain);
+
+  // On mobile, scroll to detail panel
+  if (window.innerWidth <= 800) {
+    document.getElementById('detailPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   EARNINGS CALCULATOR
+════════════════════════════════════════════════════════════ */
+function updateCalc() {
+  const rate  = parseInt(document.getElementById('rateSlider').value, 10);
+  const hours = parseInt(document.getElementById('hoursSlider').value, 10);
+
+  document.getElementById('rateDisplay').textContent  = `$${rate}/hr`;
+  document.getElementById('hoursDisplay').textContent = `${hours} hrs`;
+
+  const weekly  = rate * hours;
+  const monthly = Math.round(weekly * 4.33);
+  const annual  = Math.round(weekly * 52);
+
+  document.getElementById('monthlyOut').textContent = fmt(monthly);
+  document.getElementById('annualOut').textContent  = fmt(annual);
+}
+
+/* ════════════════════════════════════════════════════════════
+   NAVBAR TOGGLE
+════════════════════════════════════════════════════════════ */
+function initNav() {
+  const toggle = document.getElementById('menuToggle');
+  const nav    = document.getElementById('mainNav');
+  toggle.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen);
+  });
+  // Close on outside click
+  document.addEventListener('click', e => {
+    if (nav.classList.contains('open') && !nav.contains(e.target) && e.target !== toggle) {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   FILTER PILLS
+════════════════════════════════════════════════════════════ */
+function initFilters() {
+  document.querySelectorAll('.filter-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeFilter = btn.dataset.cat;
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSidebar();
+    });
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   SEARCH
+════════════════════════════════════════════════════════════ */
+function initSearch() {
+  const input = document.getElementById('heroSearch');
+  input.addEventListener('input', () => {
+    searchQuery = input.value.trim().toLowerCase();
+    renderSidebar();
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   FOOTER YEAR
+════════════════════════════════════════════════════════════ */
+function setYear() {
+  const el = document.getElementById('currentYear');
+  if (el) el.textContent = new Date().getFullYear();
+}
+
+/* ════════════════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderSidebar();
+  renderPlatformsTable();
+  updateCalc();
+  initNav();
+  initFilters();
+  initSearch();
+  setYear();
+
+  // Slider events
+  document.getElementById('rateSlider').addEventListener('input', updateCalc);
+  document.getElementById('hoursSlider').addEventListener('input', updateCalc);
+
+  // Auto-select first domain for a better first impression
+  if (SKILL_DOMAINS.length > 0) {
+    selectDomain(SKILL_DOMAINS[0].id);
+  }
+});
+</script>
+</body>
+</html>

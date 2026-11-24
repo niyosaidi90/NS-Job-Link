@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Practice behavioral, technical, and leadership interview questions with timed responses and instant feedback. NS WorkLink Mock Interview Simulator.">
+  <title>Mock Interview Simulator — NS WorkLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & tokens ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --navy:   #0f172a;
+      --navy2:  #1e293b;
+      --navy3:  #334155;
+      --indigo: #4f46e5;
+      --indigo2:#4338ca;
+      --indigo3:#e0e7ff;
+      --slate:  #64748b;
+      --slate2: #94a3b8;
+      --slate3: #cbd5e1;
+      --slate4: #e2e8f0;
+      --slate5: #f1f5f9;
+      --slate6: #f8fafc;
+      --green:  #059669;
+      --green2: #d1fae5;
+      --green3: #ecfdf5;
+      --amber:  #d97706;
+      --amber2: #fef3c7;
+      --red:    #dc2626;
+      --red2:   #fee2e2;
+      --white:  #ffffff;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow: 0 4px 24px rgba(15,23,42,.08);
+      --shadow-lg: 0 12px 48px rgba(15,23,42,.13);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #1e293b;
+      background: var(--slate5);
+    }
+    h1,h2,h3,h4,h5,h6 {
+      font-family: Manrope, sans-serif;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+    p { margin: 0; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: "DM Sans", sans-serif; cursor: pointer; }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    /* ── Layout helpers ───────────────────────────────────────── */
+    .container { width: min(1200px, calc(100% - 48px)); margin-inline: auto; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0;
+      margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border: 0;
+    }
+
+    /* ── Navbar ───────────────────────────────────────────────── */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      height: 68px;
+    }
+    .nav-wrap {
+      height: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 10px;
+      flex-shrink: 0;
+    }
+    .brand-mark {
+      position: relative;
+      display: grid; place-items: center;
+      width: 40px; height: 40px;
+      background: linear-gradient(145deg, #4f46e5, #3730a3);
+      border-radius: 11px;
+      color: #fff;
+      font-family: Manrope, sans-serif;
+      font-size: 13px; font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .brand-mark i {
+      position: absolute; width: 7px; height: 7px;
+      background: #34d399; border: 2px solid #3730a3;
+      border-radius: 50%; right: -2px; top: -2px;
+    }
+    .brand-copy { display: flex; flex-direction: column; line-height: 1.2; }
+    .brand-copy strong {
+      font-family: Manrope, sans-serif;
+      font-size: 16px; letter-spacing: -0.5px; color: #fff;
+    }
+    .brand-copy strong b { color: #818cf8; }
+    .brand-copy small {
+      font-size: 9px; letter-spacing: 1.4px; color: #64748b;
+      text-transform: uppercase; margin-top: 3px;
+    }
+    .main-nav {
+      display: flex; align-items: center; gap: 28px;
+    }
+    .nav-link {
+      font-size: 13px; font-weight: 600;
+      color: #94a3b8;
+      transition: color .2s;
+      white-space: nowrap;
+    }
+    .nav-link:hover { color: #e2e8f0; }
+    .nav-link.active {
+      color: #818cf8;
+      background: rgba(79,70,229,.18);
+      padding: 6px 12px; border-radius: 8px;
+    }
+    .menu-toggle {
+      display: none; border: 0; background: transparent; padding: 8px;
+    }
+    .menu-toggle span {
+      display: block; width: 22px; height: 2px;
+      background: #94a3b8; margin: 5px 0; border-radius: 2px;
+      transition: background .2s;
+    }
+    .menu-toggle:hover span { background: #e2e8f0; }
+
+    /* ── Page shell ───────────────────────────────────────────── */
+    .page-wrap { padding: 36px 0 64px; }
+
+    /* ── Top banner ───────────────────────────────────────────── */
+    .top-banner {
+      background: var(--white);
+      border: 1px solid var(--slate4);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .banner-left {}
+    .badge-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--indigo3); color: var(--indigo);
+      font-size: 10px; font-weight: 800;
+      letter-spacing: 1.4px; text-transform: uppercase;
+      padding: 5px 11px; border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .badge-pill .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--indigo);
+      display: inline-block;
+    }
+    .banner-left h1 {
+      font-size: clamp(22px, 2.8vw, 32px);
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .banner-left p {
+      font-size: 13px; color: var(--slate);
+      max-width: 560px; line-height: 1.75;
+    }
+    .progress-card {
+      background: var(--slate5);
+      border: 1px solid var(--slate4);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      min-width: 220px;
+      text-align: center;
+    }
+    .progress-label {
+      font-size: 11px; font-weight: 700;
+      color: var(--slate); letter-spacing: .5px;
+      margin-bottom: 6px;
+    }
+    .progress-count {
+      font-family: Manrope, sans-serif;
+      font-size: 26px; font-weight: 800;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .progress-count span { color: var(--slate3); }
+    .progress-bar-track {
+      height: 7px; background: var(--slate4);
+      border-radius: 10px; overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .progress-bar-fill {
+      height: 100%; background: var(--green);
+      border-radius: 10px;
+      transition: width .5s ease;
+    }
+    .progress-pct {
+      font-size: 11px; color: var(--green);
+      font-weight: 700; margin-bottom: 12px;
+    }
+    .btn-reset {
+      border: 1px solid var(--slate4);
+      background: var(--white);
+      color: var(--slate);
+      font-size: 11px; font-weight: 600;
+      padding: 7px 14px; border-radius: 8px;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .btn-reset:hover { border-color: var(--red); color: var(--red); }
+    .btn-reset.confirm-state {
+      border-color: var(--red); color: var(--white);
+      background: var(--red);
+    }
+
+    /* ── Main 2-column grid ───────────────────────────────────── */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* ── Sidebar ──────────────────────────────────────────────── */
+    .sidebar {
+      position: sticky; top: 88px;
+    }
+    .sidebar-title {
+      font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+      color: var(--slate); text-transform: uppercase;
+      margin-bottom: 10px; padding-left: 2px;
+    }
+    .question-nav { display: flex; flex-direction: column; gap: 8px; }
+    .q-nav-card {
+      background: var(--white);
+      border: 1.5px solid var(--slate4);
+      border-radius: var(--radius-sm);
+      padding: 14px 15px;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      position: relative;
+    }
+    .q-nav-card:hover {
+      border-color: #c7d2fe;
+      box-shadow: 0 2px 12px rgba(79,70,229,.1);
+    }
+    .q-nav-card.active {
+      border-color: var(--indigo);
+      background: #eef2ff;
+      box-shadow: 0 2px 16px rgba(79,70,229,.15);
+    }
+    .q-nav-card.done {
+      background: var(--green3);
+      border-color: #6ee7b7;
+    }
+    .q-nav-card.done.active {
+      background: #d1fae5;
+      border-color: var(--green);
+    }
+    .q-nav-top {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 6px;
+      margin-bottom: 6px;
+    }
+    .cat-badge {
+      font-size: 9px; font-weight: 800; letter-spacing: .8px;
+      text-transform: uppercase; padding: 3px 8px; border-radius: 6px;
+    }
+    .cat-general   { background: #e0e7ff; color: #3730a3; }
+    .cat-behavioral{ background: #fce7f3; color: #9d174d; }
+    .cat-situational{ background: #fff3cd; color: #92400e; }
+    .cat-leadership { background: #dcfce7; color: #166534; }
+    .cat-technical  { background: #cffafe; color: #155e75; }
+    .diff-badge {
+      font-size: 9px; font-weight: 700;
+      padding: 2px 7px; border-radius: 6px;
+    }
+    .diff-standard   { background: var(--slate5); color: var(--slate); }
+    .diff-challenging{ background: var(--amber2); color: var(--amber); }
+    .q-nav-text {
+      font-size: 12px; color: var(--navy2);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden; line-height: 1.5;
+    }
+    .done-badge {
+      position: absolute; top: 10px; right: 10px;
+      font-size: 9px; font-weight: 800; letter-spacing: .4px;
+      background: var(--green); color: #fff;
+      padding: 2px 7px; border-radius: 6px;
+      display: none;
+    }
+    .q-nav-card.done .done-badge { display: block; }
+    .q-num {
+      font-size: 10px; font-weight: 700; color: var(--slate2);
+      margin-bottom: 4px;
+    }
+
+    /* Mobile horizontal scroller (hidden on desktop) */
+    .mobile-q-scroller {
+      display: none;
+      overflow-x: auto;
+      gap: 10px;
+      padding-bottom: 4px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+    .mobile-q-scroller::-webkit-scrollbar { display: none; }
+    .mobile-q-btn {
+      flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      background: var(--white);
+      border: 1.5px solid var(--slate4);
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: border-color .2s;
+      min-width: 54px;
+    }
+    .mobile-q-btn.active { border-color: var(--indigo); background: #eef2ff; }
+    .mobile-q-btn.done  { border-color: #6ee7b7; background: var(--green3); }
+    .mobile-q-btn .mq-num { font-size: 13px; font-weight: 800; color: var(--navy); }
+    .mobile-q-btn .mq-check { font-size: 14px; color: var(--green); }
+
+    /* ── Right panel ──────────────────────────────────────────── */
+    .panel { display: flex; flex-direction: column; gap: 18px; }
+
+    /* Question header */
+    .q-header-card {
+      background: var(--white);
+      border: 1px solid var(--slate4);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 14px;
+      flex-wrap: wrap;
+    }
+    .q-header-left { display: flex; flex-direction: column; gap: 4px; }
+    .q-meta-label {
+      font-size: 11px; font-weight: 700; color: var(--slate);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .q-meta-label .sep { color: var(--slate3); }
+    .q-status-pill {
+      font-size: 10px; font-weight: 800; letter-spacing: .5px;
+      padding: 4px 11px; border-radius: 20px;
+    }
+    .status-inprogress { background: #fef3c7; color: #92400e; }
+    .status-done       { background: var(--green2); color: var(--green); }
+    .q-nav-arrows {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .arrow-btn {
+      border: 1px solid var(--slate4);
+      background: var(--white);
+      border-radius: 8px;
+      width: 36px; height: 36px;
+      font-size: 18px; color: var(--slate);
+      display: grid; place-items: center;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .arrow-btn:hover:not(:disabled) { border-color: var(--indigo); color: var(--indigo); }
+    .arrow-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+    /* Question text */
+    .q-text-card {
+      background: var(--white);
+      border: 1px solid var(--slate4);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      box-shadow: var(--shadow);
+    }
+    .q-number-pill {
+      display: inline-block;
+      font-size: 10px; font-weight: 800; letter-spacing: 1px;
+      color: var(--indigo); background: var(--indigo3);
+      padding: 3px 10px; border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    .q-text-card h2 {
+      font-size: clamp(18px, 2.2vw, 24px);
+      color: var(--navy);
+      line-height: 1.3;
+    }
+    .q-text-card h2 .q-quote { color: var(--indigo); }
+
+    /* Recruiter focus */
+    .recruiter-box {
+      background: var(--slate5);
+      border: 1px solid var(--slate4);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .recruiter-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .recruiter-box p {
+      font-size: 12px; color: var(--slate);
+      line-height: 1.7;
+    }
+    .recruiter-box strong {
+      display: block; font-size: 10px; font-weight: 800;
+      letter-spacing: .8px; text-transform: uppercase;
+      color: var(--navy3); margin-bottom: 3px;
+    }
+
+    /* Response studio */
+    .studio-card {
+      background: var(--navy);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      box-shadow: var(--shadow-lg);
+    }
+    .studio-title {
+      font-size: 10px; font-weight: 800; letter-spacing: 1.5px;
+      text-transform: uppercase; color: #64748b;
+      margin-bottom: 16px;
+    }
+
+    /* Timer */
+    .timer-block {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 18px; flex-wrap: wrap;
+    }
+    .timer-display {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 42px; font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 2px; line-height: 1;
+      min-width: 110px;
+    }
+    .timer-display.warning { color: #fbbf24; }
+    .timer-display.overrun { color: #f87171; }
+    .timer-controls {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .btn-timer {
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 12px; font-weight: 700;
+      padding: 9px 16px; border-radius: 9px;
+      display: flex; align-items: center; gap: 7px;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .btn-timer:hover { border-color: #818cf8; color: #c7d2fe; }
+    .btn-timer.running {
+      border-color: #fbbf24; color: #fbbf24;
+      background: rgba(251,191,36,.08);
+    }
+    .btn-timer-reset {
+      border: 1px solid #334155;
+      background: transparent;
+      color: #64748b;
+      font-size: 12px; font-weight: 600;
+      padding: 9px 14px; border-radius: 9px;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-timer-reset:hover { border-color: #64748b; color: #94a3b8; }
+    .timer-target {
+      font-size: 11px; color: #475569;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    .timer-target b { color: #94a3b8; }
+
+    /* Mic */
+    .mic-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 14px;
+    }
+    .btn-mic {
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 12px; font-weight: 700;
+      padding: 9px 16px; border-radius: 9px;
+      display: flex; align-items: center; gap: 7px;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .btn-mic:hover { border-color: #818cf8; color: #c7d2fe; }
+    .btn-mic.listening {
+      border-color: #f87171; color: #f87171;
+      background: rgba(248,113,113,.08);
+      animation: pulse-mic 1.4s infinite;
+    }
+    .btn-mic.unsupported { opacity: .45; cursor: not-allowed; }
+    @keyframes pulse-mic {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(248,113,113,.4); }
+      50%       { box-shadow: 0 0 0 7px rgba(248,113,113,0); }
+    }
+    .mic-status { font-size: 11px; color: #64748b; }
+
+    /* Textarea */
+    .response-textarea {
+      width: 100%; min-height: 160px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 14px 16px;
+      color: #e2e8f0;
+      font-family: "DM Sans", sans-serif;
+      font-size: 14px; line-height: 1.7;
+      resize: vertical;
+      outline: none;
+      transition: border-color .2s;
+      margin-bottom: 14px;
+    }
+    .response-textarea::placeholder { color: #475569; }
+    .response-textarea:focus { border-color: #818cf8; }
+
+    /* Evaluate button */
+    .btn-evaluate {
+      width: 100%;
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      color: #fff;
+      border: 0;
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-size: 14px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: opacity .2s, transform .2s;
+      box-shadow: 0 4px 20px rgba(79,70,229,.3);
+    }
+    .btn-evaluate:hover { opacity: .9; transform: translateY(-1px); }
+    .btn-evaluate:active { transform: translateY(0); }
+
+    /* Live metrics */
+    .metrics-bar {
+      display: flex; align-items: center; gap: 10px;
+      margin-top: 14px; flex-wrap: wrap;
+    }
+    .metric-chip {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 7px 12px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 2px;
+    }
+    .metric-chip .mc-label {
+      font-size: 9px; font-weight: 700; letter-spacing: .8px;
+      text-transform: uppercase; color: #475569;
+    }
+    .metric-chip .mc-value {
+      font-size: 15px; font-weight: 800; color: #cbd5e1;
+    }
+    .metric-chip.star-detected .mc-value { color: #34d399; }
+    .metrics-spacer { flex: 1; }
+    .btn-mark-done {
+      background: var(--green);
+      color: #fff;
+      border: 0;
+      border-radius: 9px;
+      padding: 9px 18px;
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; gap: 6px;
+      transition: opacity .2s;
+      box-shadow: 0 4px 14px rgba(5,150,105,.25);
+    }
+    .btn-mark-done:hover { opacity: .88; }
+    .btn-mark-done.already-done {
+      background: #334155; color: #64748b;
+      box-shadow: none;
+    }
+
+    /* Completion banner */
+    .completion-banner {
+      background: linear-gradient(135deg, #064e3b, #065f46);
+      border: 1px solid #34d399;
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      display: none;
+    }
+    .completion-banner.visible { display: flex; }
+    .completion-banner p {
+      flex: 1;
+      font-size: 13px; font-weight: 600; color: #a7f3d0;
+    }
+    .completion-banner p b { color: #34d399; }
+    .btn-next-q {
+      background: #34d399; color: #064e3b;
+      border: 0; border-radius: 8px;
+      padding: 9px 16px;
+      font-size: 12px; font-weight: 800;
+      white-space: nowrap;
+      transition: opacity .2s;
+    }
+    .btn-next-q:hover { opacity: .88; }
+
+    /* ── Evaluation report ────────────────────────────────────── */
+    .eval-card {
+      background: var(--white);
+      border: 1px solid var(--slate4);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      box-shadow: var(--shadow);
+      display: none;
+    }
+    .eval-card.visible { display: block; }
+    .eval-top {
+      display: flex; align-items: flex-start;
+      gap: 20px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .score-circle {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      border: 4px solid var(--indigo);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .score-circle.score-excellent { border-color: var(--green); }
+    .score-circle.score-strong    { border-color: #3b82f6; }
+    .score-circle.score-developing{ border-color: var(--amber); }
+    .score-circle.score-needs     { border-color: var(--red); }
+    .score-num {
+      font-family: Manrope, sans-serif;
+      font-size: 28px; font-weight: 800;
+      color: var(--navy);
+    }
+    .eval-summary { flex: 1; min-width: 180px; }
+    .eval-rating {
+      font-family: Manrope, sans-serif;
+      font-size: 18px; font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .eval-pace {
+      font-size: 12px; color: var(--slate);
+      margin-bottom: 8px;
+    }
+    .star-grid {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .star-item {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 700;
+      padding: 4px 10px; border-radius: 7px;
+    }
+    .star-item.found     { background: var(--green3); color: var(--green); }
+    .star-item.not-found { background: var(--red2); color: var(--red); }
+
+    .eval-section-title {
+      font-size: 11px; font-weight: 800; letter-spacing: .8px;
+      text-transform: uppercase; color: var(--slate);
+      margin: 16px 0 8px;
+    }
+    .strengths-list, .improve-list { list-style: none; padding: 0; margin: 0; }
+    .strengths-list li, .improve-list li {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; line-height: 1.6; color: var(--navy2);
+      margin-bottom: 6px;
+    }
+    .strengths-list li::before { content: "✓"; color: var(--green); font-weight: 800; flex-shrink: 0; }
+    .improve-list li::before   { content: "→"; color: var(--amber); font-weight: 800; flex-shrink: 0; }
+    .coaching-tip {
+      background: var(--indigo3);
+      border-left: 3px solid var(--indigo);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      margin-top: 10px;
+      font-size: 13px; color: #3730a3;
+      line-height: 1.7;
+    }
+    .coaching-tip strong { display: block; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; margin-bottom: 4px; color: var(--indigo2); }
+
+    /* ── Tips accordion ───────────────────────────────────────── */
+    .tips-card {
+      background: var(--white);
+      border: 1px solid var(--slate4);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .tips-toggle {
+      width: 100%;
+      background: none; border: 0;
+      padding: 18px 24px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; font-weight: 700; color: var(--navy);
+      text-align: left;
+      transition: background .2s;
+    }
+    .tips-toggle:hover { background: var(--slate5); }
+    .tips-icon {
+      display: grid; place-items: center;
+      width: 32px; height: 32px;
+      background: #fef3c7; border-radius: 8px;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .tips-chevron {
+      margin-left: auto; font-size: 18px; color: var(--slate2);
+      transition: transform .3s;
+    }
+    .tips-toggle[aria-expanded="true"] .tips-chevron { transform: rotate(180deg); }
+    .tips-body {
+      display: none;
+      padding: 0 24px 20px;
+    }
+    .tips-body.open { display: block; }
+    .tips-body ol {
+      margin: 0; padding-left: 22px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .tips-body li {
+      font-size: 13px; color: var(--navy2); line-height: 1.7;
+    }
+
+    /* ── Sample answer ────────────────────────────────────────── */
+    .sample-card {
+      background: var(--white);
+      border: 1px solid var(--slate4);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .sample-toggle {
+      width: 100%;
+      background: none; border: 0;
+      padding: 18px 24px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; font-weight: 700; color: var(--navy);
+      text-align: left;
+      transition: background .2s;
+    }
+    .sample-toggle:hover { background: var(--slate5); }
+    .sample-icon {
+      display: grid; place-items: center;
+      width: 32px; height: 32px;
+      background: #e0e7ff; border-radius: 8px;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .sample-chevron {
+      margin-left: auto; font-size: 18px; color: var(--slate2);
+      transition: transform .3s;
+    }
+    .sample-toggle[aria-expanded="true"] .sample-chevron { transform: rotate(180deg); }
+    .sample-body {
+      display: none;
+      padding: 0 24px 20px;
+    }
+    .sample-body.open { display: block; }
+    .sample-warning {
+      background: var(--amber2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 11px; color: #92400e;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .sample-text {
+      font-size: 13px; color: var(--navy2);
+      line-height: 1.8;
+      background: var(--slate5);
+      border: 1px solid var(--slate4);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+
+    /* ── Key phrases ──────────────────────────────────────────── */
+    .phrases-card {
+      background: var(--white);
+      border: 1px solid var(--slate4);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+    }
+    .phrases-title {
+      font-size: 11px; font-weight: 800; letter-spacing: .8px;
+      text-transform: uppercase; color: var(--slate);
+      margin-bottom: 10px;
+    }
+    .phrases-list {
+      display: flex; flex-wrap: wrap; gap: 7px;
+    }
+    .phrase-chip {
+      background: var(--indigo3);
+      color: var(--indigo2);
+      font-size: 12px; font-weight: 600;
+      padding: 5px 12px; border-radius: 20px;
+      border: 1px solid #c7d2fe;
+    }
+
+    /* ── Session complete banner ──────────────────────────────── */
+    .session-complete {
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+      border: 1px solid #818cf8;
+      border-radius: var(--radius);
+      padding: 36px 40px;
+      text-align: center;
+      margin-top: 24px;
+      display: none;
+    }
+    .session-complete.visible { display: block; }
+    .confetti-row {
+      font-size: 32px; margin-bottom: 14px;
+      letter-spacing: 4px;
+    }
+    .session-complete h2 {
+      font-size: clamp(22px, 3vw, 32px);
+      color: #e0e7ff; margin-bottom: 10px;
+    }
+    .session-complete p {
+      font-size: 14px; color: #a5b4fc;
+      max-width: 500px; margin: 0 auto 20px; line-height: 1.7;
+    }
+    .btn-start-over {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      color: #fff; border: 0;
+      border-radius: 10px;
+      padding: 13px 28px;
+      font-size: 14px; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: opacity .2s;
+      box-shadow: 0 4px 20px rgba(79,70,229,.35);
+    }
+    .btn-start-over:hover { opacity: .88; }
+
+    /* ── Responsive ───────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .main-grid { grid-template-columns: 260px 1fr; }
+    }
+    @media (max-width: 860px) {
+      .sidebar { display: none; position: static; }
+      .mobile-q-scroller { display: flex; }
+      .main-grid { grid-template-columns: 1fr; }
+      .top-banner { grid-template-columns: 1fr; }
+      .progress-card { min-width: 0; text-align: left; }
+      .timer-block { flex-direction: column; align-items: flex-start; }
+      .timer-target { margin-left: 0; }
+      .metrics-bar { gap: 8px; }
+      .metric-chip { flex: 1; min-width: calc(33% - 8px); align-items: center; }
+      .btn-mark-done { width: 100%; justify-content: center; }
+    }
+    @media (max-width: 600px) {
+      .container { width: calc(100% - 32px); }
+      .page-wrap { padding: 20px 0 48px; }
+      .top-banner { padding: 20px; }
+      .q-text-card { padding: 18px 20px; }
+      .studio-card { padding: 18px 20px; }
+      .eval-card { padding: 18px 20px; }
+      .session-complete { padding: 28px 20px; }
+      .q-header-card { padding: 14px 18px; }
+      .menu-toggle { display: block; }
+      .main-nav {
+        display: none;
+        position: absolute; top: 68px; left: 0; right: 0;
+        background: var(--navy2);
+        flex-direction: column; align-items: stretch;
+        padding: 12px 20px 20px;
+        border-bottom: 1px solid rgba(255,255,255,.07);
+        box-shadow: 0 16px 24px rgba(15,23,42,.3);
+        gap: 0;
+      }
+      .main-nav.open { display: flex; }
+      .nav-link {
+        padding: 12px 4px;
+        border-bottom: 1px solid rgba(255,255,255,.06);
+        display: block;
+      }
+      .nav-link.active { border-radius: 0; padding: 12px 4px; background: none; }
+      .timer-display { font-size: 34px; }
+      .score-circle { width: 76px; height: 76px; }
+      .score-num { font-size: 24px; }
+    }
+    @media (max-width: 400px) {
+      .container { width: calc(100% - 24px); }
+      .metric-chip { min-width: calc(50% - 5px); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ─────────────────────────────────────────────────── -->
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="index.html" aria-label="NS WorkLink home">
+      <span class="brand-mark" aria-hidden="true">NS<i></i></span>
+      <span class="brand-copy">
+        <strong>NS <b>WorkLink</b></strong>
+        <small>Connect. Work. Grow.</small>
+      </span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Open navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="index.html#jobs">Find Jobs</a>
+      <a class="nav-link" href="skills.html">Remote Skills</a>
+      <a class="nav-link" href="resume.html">CV Builder</a>
+      <a class="nav-link active" href="interview.html" aria-current="page">Mock Interviews</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── Page ───────────────────────────────────────────────────── -->
+<main class="page-wrap">
+  <div class="container">
+
+    <!-- Top Banner -->
+    <div class="top-banner">
+      <div class="banner-left">
+        <div class="badge-pill"><span class="dot"></span> Interview Prep Simulator</div>
+        <h1>Mock Interview Practice Module</h1>
+        <p>Master behavioral, technical, and leadership questions with timed responses, STAR framework analysis, and progress tracking.</p>
+      </div>
+      <div class="progress-card">
+        <div class="progress-label">QUESTIONS COMPLETED</div>
+        <div class="progress-count" id="progressCount">0 <span>/ 6</span></div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressBarFill" style="width:0%"></div>
+        </div>
+        <div class="progress-pct" id="progressPct">0% Complete</div>
+        <button class="btn-reset" id="btnReset" title="Double-click to reset all progress">↺ Reset Progress</button>
+      </div>
+    </div>
+
+    <!-- Mobile question scroller -->
+    <div class="mobile-q-scroller" id="mobileQScroller" role="tablist" aria-label="Question navigation"></div>
+
+    <!-- Main grid -->
+    <div class="main-grid">
+      <!-- Sidebar -->
+      <aside class="sidebar" aria-label="Question list">
+        <div class="sidebar-title">All Questions</div>
+        <div class="question-nav" id="questionNav" role="tablist" aria-label="Question navigation"></div>
+      </aside>
+
+      <!-- Right panel -->
+      <div class="panel" id="mainPanel">
+
+        <!-- A: Question header -->
+        <div class="q-header-card" id="qHeaderCard">
+          <div class="q-header-left">
+            <div class="q-meta-label" id="qMetaLabel">
+              <!-- filled by JS -->
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <span class="q-status-pill status-inprogress" id="qStatusPill">In Progress</span>
+            <div class="q-nav-arrows">
+              <button class="arrow-btn" id="btnPrev" aria-label="Previous question" title="Previous">‹</button>
+              <button class="arrow-btn" id="btnNext" aria-label="Next question" title="Next">›</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- B: Question text + recruiter focus -->
+        <div class="q-text-card" id="qTextCard">
+          <div class="q-number-pill" id="qNumberPill">Question 1 of 6</div>
+          <h2 id="qText">Loading…</h2>
+          <div class="recruiter-box" id="recruiterBox">
+            <span class="recruiter-icon">🎯</span>
+            <div>
+              <strong>Recruiter Focus</strong>
+              <p id="recruiterGoal"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- C: Response Studio -->
+        <div class="studio-card">
+          <div class="studio-title">⏱ Response Studio</div>
+
+          <!-- Timer -->
+          <div class="timer-block">
+            <div class="timer-display" id="timerDisplay">0:00</div>
+            <div class="timer-controls">
+              <button class="btn-timer" id="btnTimerStart">▶ Start Timer</button>
+              <button class="btn-timer-reset" id="btnTimerReset">Reset</button>
+            </div>
+            <div class="timer-target">Target: <b id="targetTime">2:00</b></div>
+          </div>
+
+          <!-- Mic -->
+          <div class="mic-row">
+            <button class="btn-mic" id="btnMic">🎤 Dictate</button>
+            <span class="mic-status" id="micStatus"></span>
+          </div>
+
+          <!-- Textarea -->
+          <textarea
+            class="response-textarea"
+            id="responseTextarea"
+            placeholder="Type or dictate your response…"
+            aria-label="Your interview response"
+            spellcheck="true"
+          ></textarea>
+
+          <!-- Evaluate -->
+          <button class="btn-evaluate" id="btnEvaluate">
+            <span>✦</span> Evaluate My Answer
+          </button>
+
+          <!-- Live metrics -->
+          <div class="metrics-bar">
+            <div class="metric-chip">
+              <span class="mc-label">Word Count</span>
+              <span class="mc-value" id="metricWords">0</span>
+            </div>
+            <div class="metric-chip">
+              <span class="mc-label">Pace (WPM)</span>
+              <span class="mc-value" id="metricPace">—</span>
+            </div>
+            <div class="metric-chip" id="metricStarChip">
+              <span class="mc-label">STAR Elements</span>
+              <span class="mc-value" id="metricStar">0 / 4</span>
+            </div>
+            <div class="metrics-spacer"></div>
+            <button class="btn-mark-done" id="btnMarkDone">✓ Mark Done</button>
+          </div>
+
+          <!-- Completion banner -->
+          <div class="completion-banner" id="completionBanner">
+            <p>✅ <b>Question marked complete!</b> Great work. Keep going!</p>
+            <button class="btn-next-q" id="btnNextQ">Next Question →</button>
+          </div>
+        </div>
+
+        <!-- D: Evaluation Report -->
+        <div class="eval-card" id="evalCard">
+          <div class="eval-top">
+            <div class="score-circle" id="scoreCircle">
+              <span class="score-num" id="scoreNum">—</span>
+            </div>
+            <div class="eval-summary">
+              <div class="eval-rating" id="evalRating">—</div>
+              <div class="eval-pace"  id="evalPace">—</div>
+              <div class="star-grid"  id="starGrid"></div>
+            </div>
+          </div>
+
+          <div class="eval-section-title">💪 Strengths Detected</div>
+          <ul class="strengths-list" id="strengthsList"></ul>
+
+          <div class="eval-section-title">🔧 Areas to Improve</div>
+          <ul class="improve-list" id="improveList"></ul>
+
+          <div class="coaching-tip" id="coachingTip">
+            <strong>💡 Coaching Tip</strong>
+            <span id="coachingTipText"></span>
+          </div>
+        </div>
+
+        <!-- E: Tips accordion -->
+        <div class="tips-card" id="tipsCard">
+          <button class="tips-toggle" id="tipsToggle" aria-expanded="false" aria-controls="tipsBody">
+            <span class="tips-icon">💡</span>
+            Recruiter Tips for This Question
+            <span class="tips-chevron">⌄</span>
+          </button>
+          <div class="tips-body" id="tipsBody" role="region" aria-labelledby="tipsToggle">
+            <ol id="tipsList"></ol>
+          </div>
+        </div>
+
+        <!-- F: Sample answer -->
+        <div class="sample-card" id="sampleCard">
+          <button class="sample-toggle" id="sampleToggle" aria-expanded="false" aria-controls="sampleBody">
+            <span class="sample-icon">📋</span>
+            Benchmark Sample Answer
+            <span class="sample-chevron">⌄</span>
+          </button>
+          <div class="sample-body" id="sampleBody" role="region" aria-labelledby="sampleToggle">
+            <div class="sample-warning">
+              ⚠️ Read the sample <em>after</em> you've attempted the question for best results.
+            </div>
+            <div class="sample-text" id="sampleText"></div>
+          </div>
+        </div>
+
+        <!-- G: Key phrases -->
+        <div class="phrases-card" id="phrasesCard">
+          <div class="phrases-title">🔑 Key Phrases to Include</div>
+          <div class="phrases-list" id="phrasesList"></div>
+        </div>
+
+      </div><!-- /panel -->
+    </div><!-- /main-grid -->
+
+    <!-- Session complete -->
+    <div class="session-complete" id="sessionComplete">
+      <div class="confetti-row">🎉 🏆 🎊 ✨ 🥇</div>
+      <h2>All 6 Questions Completed!</h2>
+      <p>Outstanding work. You've completed the full Mock Interview Simulator. Review your answers, refine weak areas, and schedule a real practice session to cement your progress.</p>
+      <button class="btn-start-over" id="btnStartOver">↺ Start Over</button>
+    </div>
+
+  </div><!-- /container -->
+</main>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════════
+const QUESTIONS = [
+  {
+    id: "q1",
+    category: "General",
+    difficulty: "Standard",
+    recommendedTimeSec: 120,
+    question: "Tell me about yourself and how your background connects to this role.",
+    recruiterGoal: "Assess communication conciseness, career intentionality, and alignment with the target opportunity without reciting a chronological resume.",
+    sampleAnswer: "Over the past 5 years, I've specialized in building resilient, high-volume web platforms. In my previous role at Atlas Tech, I scaled our core transactional services to handle over 20 million daily API requests while reducing p99 latency by 35%. What excites me about your team is your expansion into international distributed architecture — that exact operational challenge is where my deepest experience lies.",
+    tips: [
+      "Use the Present-Past-Future framework: where you are today, what value you delivered, and why this role is your next milestone.",
+      "Aim for 90–120 seconds. Avoid childhood stories or reciting grades.",
+      "Conclude with a direct bridge to how your skill solves the employer's current strategic priority."
+    ],
+    keyPhrases: ["Present-Past-Future", "measurable impact", "strategic alignment", "domain expertise"]
+  },
+  {
+    id: "q2",
+    category: "Behavioral",
+    difficulty: "Standard",
+    recommendedTimeSec: 90,
+    question: "Why do you want to work here, and why this role specifically?",
+    recruiterGoal: "Determine whether you did real homework on the company culture, roadmap, and challenges — or if you are sending generic applications.",
+    sampleAnswer: "I've tracked your engineering blog since your migration to a global multi-tenant microservices model last year. What stood out was your team's commitment to open-source governance. In this role, having ownership over developer platform tooling where I can directly eliminate deployment friction for 200+ engineers is exactly the high-leverage environment where I thrive.",
+    tips: [
+      "Mention a specific recent milestone, blog post, product release, or strategic philosophy of the company.",
+      "Connect what they need with what intrinsically motivates you.",
+      "Never cite salary, benefits, or remote work as your primary motivation."
+    ],
+    keyPhrases: ["specific company research", "shared mission", "leverage point", "mutual growth"]
+  },
+  {
+    id: "q3",
+    category: "Behavioral",
+    difficulty: "Challenging",
+    recommendedTimeSec: 120,
+    question: "Describe a significant disagreement with a colleague or stakeholder and how you resolved it.",
+    recruiterGoal: "Evaluate emotional intelligence, objective conflict de-escalation, adherence to data over ego, and team health preservation.",
+    sampleAnswer: "During our Q3 architectural redesign, I advocated for partitioning event streams using Apache Kafka while our lead DBA wanted to retain the legacy relational database. Instead of debating theories, I proposed a 48-hour spike test simulating peak traffic. The benchmark data revealed write lock contention on the relational setup. We agreed on a phased hybrid approach and delivered the migration two weeks ahead of deadline with zero production incidents.",
+    tips: [
+      "Structure using the STAR method: Situation, Task, Action, Result.",
+      "Focus on objective data and shared customer outcomes rather than interpersonal clash.",
+      "Highlight how the working relationship remained strong after resolution."
+    ],
+    keyPhrases: ["STAR method", "objective benchmark", "active listening", "win-win resolution"]
+  },
+  {
+    id: "q4",
+    category: "Situational",
+    difficulty: "Challenging",
+    recommendedTimeSec: 120,
+    question: "Tell me about a high-visibility project failure or outage and how you handled the fallout.",
+    recruiterGoal: "Test accountability, psychological safety under pressure, post-mortem rigor, and preventive systems thinking.",
+    sampleAnswer: "During a Black Friday deployment, a misconfigured rate-limiting script choked customer authentication for 18 minutes. I immediately raised the incident bridge, rolled back within 4 minutes, and notified customer support with accurate messaging. In the blameless post-mortem, we identified the lack of automated smoke testing. I took ownership of implementing canary health-check gates in CI/CD, which caught three subsequent regression bugs before they reached production.",
+    tips: [
+      "Take full ownership immediately — never blame junior teammates or external vendors.",
+      "Detail the immediate mitigation first, followed by the permanent preventive safeguard.",
+      "Show you view failures as system improvements rather than personal setbacks."
+    ],
+    keyPhrases: ["immediate containment", "blameless post-mortem", "systemic fix", "canary gate"]
+  },
+  {
+    id: "q5",
+    category: "Leadership",
+    difficulty: "Standard",
+    recommendedTimeSec: 90,
+    question: "How do you prioritize competing deadlines when every stakeholder claims their request is critical?",
+    recruiterGoal: "Assess framework-driven decision making, stakeholder boundary setting, and transparent communication under constraint.",
+    sampleAnswer: "I ground prioritization in measurable business impact using an adaptation of the RICE framework. When multiple P0 requests arrive concurrently, I gather the leads for a brief sync, lay out current sprint capacity transparently, and evaluate trade-offs together against our quarterly North Star metric. By making trade-offs explicit, stakeholders collaborate on priority rather than feeling arbitrarily blocked.",
+    tips: [
+      "Mention a structured prioritization model: RICE, Eisenhower Matrix, or ROI scoring.",
+      "Demonstrate that saying 'no' or 'not now' is accompanied by transparent rationale.",
+      "Emphasize closing the feedback loop with stakeholders promptly."
+    ],
+    keyPhrases: ["RICE framework", "transparent trade-offs", "stakeholder consensus", "North Star metric"]
+  },
+  {
+    id: "q6",
+    category: "Technical",
+    difficulty: "Challenging",
+    recommendedTimeSec: 90,
+    question: "How do you explain a complex technical concept to a non-technical executive or client?",
+    recruiterGoal: "Assess conceptual mastery, empathy, analogy generation, and communication adaptability.",
+    sampleAnswer: "I anchor the concept to an everyday analogy that matches their domain. When explaining microservices vs. a monolith to our VP of Finance, I compared the monolith to a cruise ship where an engine issue halts the entire voyage, while microservices are a fleet of speedboats where one docks for repairs without stopping the rest. I then connected it to their primary metric: reduced downtime protects transactional revenue.",
+    tips: [
+      "Avoid technical jargon unprompted — no IPC, serialization, or idempotency without context.",
+      "Tether the technical rationale to business risk, revenue, or customer satisfaction.",
+      "Pause periodically to check for comprehension: 'Does that analogy resonate?'"
+    ],
+    keyPhrases: ["concrete analogy", "business value anchor", "jargon-free clarity", "active validation"]
+  }
+];
+
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+const LS_PRACTICED = "nsworklink_practiced";
+const LS_ANSWERS   = "nsworklink_answers";
+
+let state = {
+  currentIndex: 0,
+  practiced: new Set(),       // Set of question IDs
+  answers: {},                // { qId: string }
+  timerSec: 0,
+  timerRunning: false,
+  timerInterval: null,
+  recognizing: false,
+  recognition: null,
+  resetClickCount: 0,
+  resetTimer: null,
+};
+
+// ── Persistence helpers ───────────────────────────────────────
+function loadState() {
+  try {
+    const p = localStorage.getItem(LS_PRACTICED);
+    if (p) state.practiced = new Set(JSON.parse(p));
+  } catch(e) {}
+  try {
+    const a = localStorage.getItem(LS_ANSWERS);
+    if (a) state.answers = JSON.parse(a);
+  } catch(e) {}
+}
+function savePracticed() {
+  localStorage.setItem(LS_PRACTICED, JSON.stringify([...state.practiced]));
+}
+function saveAnswers() {
+  localStorage.setItem(LS_ANSWERS, JSON.stringify(state.answers));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DOM REFS
+// ═══════════════════════════════════════════════════════════════
+const $ = id => document.getElementById(id);
+
+// ═══════════════════════════════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════════════════════════════
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${s.toString().padStart(2,'0')}`;
+}
+
+function updateTimerDisplay() {
+  const q = QUESTIONS[state.currentIndex];
+  const el = $('timerDisplay');
+  el.textContent = formatTime(state.timerSec);
+  el.classList.remove('warning','overrun');
+  if (state.timerSec > q.recommendedTimeSec + 30)      el.classList.add('overrun');
+  else if (state.timerSec > q.recommendedTimeSec - 20) el.classList.add('warning');
+  updateLiveMetrics();
+}
+
+function startTimer() {
+  if (state.timerRunning) return;
+  state.timerRunning = true;
+  const btn = $('btnTimerStart');
+  btn.textContent = '⏸ Pause';
+  btn.classList.add('running');
+  state.timerInterval = setInterval(() => {
+    state.timerSec++;
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function pauseTimer() {
+  if (!state.timerRunning) return;
+  state.timerRunning = false;
+  clearInterval(state.timerInterval);
+  const btn = $('btnTimerStart');
+  btn.textContent = '▶ Resume';
+  btn.classList.remove('running');
+}
+
+function resetTimer() {
+  pauseTimer();
+  state.timerSec = 0;
+  const btn = $('btnTimerStart');
+  btn.textContent = '▶ Start Timer';
+  btn.classList.remove('running');
+  updateTimerDisplay();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// LIVE METRICS
+// ═══════════════════════════════════════════════════════════════
+const STAR_PATTERNS = {
+  Situation: /situation|context|background|project|when I|at the time/i,
+  Task:      /task|goal|objective|challenge|assigned|responsible for/i,
+  Action:    /action|built|implemented|decided|led|executed|spearheaded|developed/i,
+  Result:    /result|outcome|impact|increased|reduced|saved|improved|metric|percent|%/i,
+};
+
+function detectSTAR(text) {
+  return {
+    Situation: STAR_PATTERNS.Situation.test(text),
+    Task:      STAR_PATTERNS.Task.test(text),
+    Action:    STAR_PATTERNS.Action.test(text),
+    Result:    STAR_PATTERNS.Result.test(text),
+  };
+}
+
+function countWords(text) {
+  return text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+}
+
+function updateLiveMetrics() {
+  const text  = $('responseTextarea').value;
+  const words = countWords(text);
+  const star  = detectSTAR(text);
+  const found = Object.values(star).filter(Boolean).length;
+
+  $('metricWords').textContent = words;
+
+  if (state.timerSec > 0 && words > 0) {
+    const wpm = Math.round(words / (state.timerSec / 60));
+    $('metricPace').textContent = wpm;
+  } else {
+    $('metricPace').textContent = '—';
+  }
+
+  $('metricStar').textContent = `${found} / 4`;
+  const chip = $('metricStarChip');
+  chip.classList.toggle('star-detected', found >= 3);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EVALUATION
+// ═══════════════════════════════════════════════════════════════
+function evaluate() {
+  const q    = QUESTIONS[state.currentIndex];
+  const text = $('responseTextarea').value.trim();
+
+  if (text.length < 10) {
+    alert('Please type or dictate a response before evaluating.');
+    return;
+  }
+
+  const words = countWords(text);
+  const star  = detectSTAR(text);
+  const found = Object.values(star).filter(Boolean).length;
+
+  // Score
+  let score = 40;
+  score += found * 10;
+  if (words >= 80 && words <= 200) score += 10;
+  if (state.timerSec > 0 && state.timerSec <= q.recommendedTimeSec + 15) score += 10;
+  score = Math.min(100, score);
+
+  // Rating
+  let ratingLabel, ratingClass;
+  if (score >= 85)      { ratingLabel = "Excellent — Offer-Grade";       ratingClass = "score-excellent"; }
+  else if (score >= 70) { ratingLabel = "Strong — Interview-Competitive"; ratingClass = "score-strong";    }
+  else if (score >= 50) { ratingLabel = "Developing — Needs Polish";      ratingClass = "score-developing";}
+  else                  { ratingLabel = "Needs Work — Practice More";     ratingClass = "score-needs";     }
+
+  // Pace description
+  let paceLabel;
+  if (state.timerSec === 0) {
+    paceLabel = "Timer not used — start the timer next time for pace analysis.";
+  } else {
+    const wpm = Math.round(words / (state.timerSec / 60));
+    if      (wpm < 80)  paceLabel = `Slow delivery at ${wpm} WPM — aim for 100–140 WPM.`;
+    else if (wpm > 180) paceLabel = `Fast delivery at ${wpm} WPM — slow down slightly for clarity.`;
+    else                paceLabel = `Good pace at ${wpm} WPM — natural and clear.`;
+  }
+
+  // Strengths & improvements
+  const strengths = [];
+  const improvements = [];
+
+  if (star.Situation) strengths.push("Context was clearly established — the recruiter can visualize the scenario.");
+  else                improvements.push("Add a Situation opening: set the scene with brief context (team size, project, timeline).");
+
+  if (star.Task)      strengths.push("Your ownership of the challenge comes through clearly.");
+  else                improvements.push("Clarify your specific Task or responsibility — what exactly were you accountable for?");
+
+  if (star.Action)    strengths.push("Action steps are concrete — recruiters can assess your decision-making process.");
+  else                improvements.push("Describe the specific Actions you took, not what the team did generically.");
+
+  if (star.Result)    strengths.push("Quantified or qualified outcome strengthens credibility significantly.");
+  else                improvements.push("Close with a Result: include a metric, outcome, or lesson learned to complete the story.");
+
+  if (words >= 80 && words <= 200)  strengths.push(`Response length (${words} words) is in the ideal 80–200 word sweet spot.`);
+  else if (words < 80 && words > 0) improvements.push(`Response is brief at ${words} words — aim for 80–200 words for a complete answer.`);
+  else if (words > 200)             improvements.push(`Response is long at ${words} words — trim to the most impactful 150–200 words.`);
+
+  // Limit lists to 3 strengths and 2 improvements
+  const shownStrengths    = strengths.slice(0, 3);
+  const shownImprovements = improvements.slice(0, 2);
+
+  // Coaching tip from question's tips array
+  const tipIdx = Math.min(found, q.tips.length - 1);
+  const coachingTip = q.tips[tipIdx] || q.tips[0];
+
+  // ── Render ──
+  const card = $('evalCard');
+  card.classList.add('visible');
+
+  const circle = $('scoreCircle');
+  circle.className = `score-circle ${ratingClass}`;
+  $('scoreNum').textContent   = score;
+  $('evalRating').textContent = ratingLabel;
+  $('evalPace').textContent   = paceLabel;
+
+  // STAR grid
+  const starGrid = $('starGrid');
+  starGrid.innerHTML = '';
+  ['Situation','Task','Action','Result'].forEach(key => {
+    const item = document.createElement('span');
+    item.className = `star-item ${star[key] ? 'found' : 'not-found'}`;
+    item.textContent = `${star[key] ? '✓' : '✗'} ${key}`;
+    starGrid.appendChild(item);
+  });
+
+  // Strengths
+  const sl = $('strengthsList');
+  sl.innerHTML = '';
+  if (shownStrengths.length === 0) {
+    const li = document.createElement('li');
+    li.textContent = 'Develop your response further and re-evaluate.';
+    sl.appendChild(li);
+  } else {
+    shownStrengths.forEach(s => {
+      const li = document.createElement('li');
+      li.textContent = s;
+      sl.appendChild(li);
+    });
+  }
+
+  // Improvements
+  const il = $('improveList');
+  il.innerHTML = '';
+  if (shownImprovements.length === 0) {
+    const li = document.createElement('li');
+    li.textContent = 'Excellent — maintain this standard.';
+    il.appendChild(li);
+  } else {
+    shownImprovements.forEach(s => {
+      const li = document.createElement('li');
+      li.textContent = s;
+      il.appendChild(li);
+    });
+  }
+
+  $('coachingTipText').textContent = coachingTip;
+
+  // Smooth scroll to report
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION & RENDER
+// ═══════════════════════════════════════════════════════════════
+function goToQuestion(index) {
+  if (index < 0 || index >= QUESTIONS.length) return;
+
+  // Save current answer
+  const prevQ = QUESTIONS[state.currentIndex];
+  state.answers[prevQ.id] = $('responseTextarea').value;
+  saveAnswers();
+
+  // Reset timer
+  resetTimer();
+
+  // Hide eval
+  $('evalCard').classList.remove('visible');
+
+  // Close toggles
+  setAccordion('tipsToggle', 'tipsBody', false);
+  setAccordion('sampleToggle', 'sampleBody', false);
+
+  state.currentIndex = index;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q   = QUESTIONS[state.currentIndex];
+  const idx = state.currentIndex;
+  const isDone = state.practiced.has(q.id);
+
+  // A: Header meta
+  const catClass = `cat-${q.category.toLowerCase()}`;
+  const diffClass = `diff-${q.difficulty.toLowerCase()}`;
+  $('qMetaLabel').innerHTML = `
+    Question ${idx + 1} of ${QUESTIONS.length}
+    <span class="sep">·</span>
+    <span class="cat-badge ${catClass}">${q.category}</span>
+    <span class="diff-badge ${diffClass}">${q.difficulty}</span>
+    <span class="sep">·</span>
+    Target: ${formatTime(q.recommendedTimeSec)}
+  `;
+
+  // Status pill
+  const pill = $('qStatusPill');
+  if (isDone) {
+    pill.textContent = 'Completed ✓';
+    pill.className = 'q-status-pill status-done';
+  } else {
+    pill.textContent = 'In Progress';
+    pill.className = 'q-status-pill status-inprogress';
+  }
+
+  // Prev / Next
+  $('btnPrev').disabled = idx === 0;
+  $('btnNext').disabled = idx === QUESTIONS.length - 1;
+
+  // B: Question text
+  $('qNumberPill').textContent = `Question ${idx + 1} of ${QUESTIONS.length}`;
+  $('qText').innerHTML = `<span class="q-quote">"</span>${escapeHTML(q.question)}<span class="q-quote">"</span>`;
+  $('recruiterGoal').textContent = q.recruiterGoal;
+
+  // Target time
+  $('targetTime').textContent = formatTime(q.recommendedTimeSec);
+
+  // Restore answer
+  $('responseTextarea').value = state.answers[q.id] || '';
+  updateLiveMetrics();
+
+  // Mark done button
+  const btn = $('btnMarkDone');
+  if (isDone) {
+    btn.textContent = '✓ Completed';
+    btn.classList.add('already-done');
+  } else {
+    btn.textContent = '✓ Mark Done';
+    btn.classList.remove('already-done');
+  }
+
+  // Completion banner
+  const banner = $('completionBanner');
+  if (isDone) banner.classList.add('visible');
+  else        banner.classList.remove('visible');
+
+  // Tips
+  const tl = $('tipsList');
+  tl.innerHTML = '';
+  q.tips.forEach(tip => {
+    const li = document.createElement('li');
+    li.textContent = tip;
+    tl.appendChild(li);
+  });
+
+  // Sample answer
+  $('sampleText').textContent = q.sampleAnswer;
+
+  // Key phrases
+  const pl = $('phrasesList');
+  pl.innerHTML = '';
+  q.keyPhrases.forEach(phrase => {
+    const chip = document.createElement('span');
+    chip.className = 'phrase-chip';
+    chip.textContent = phrase;
+    pl.appendChild(chip);
+  });
+
+  // Sidebar + mobile active states
+  renderNav();
+}
+
+function renderNav() {
+  renderSidebarNav();
+  renderMobileNav();
+}
+
+function renderSidebarNav() {
+  const container = $('questionNav');
+  container.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const isDone   = state.practiced.has(q.id);
+    const isActive = i === state.currentIndex;
+    const catClass  = `cat-${q.category.toLowerCase()}`;
+    const diffClass = `diff-${q.difficulty.toLowerCase()}`;
+
+    const card = document.createElement('div');
+    card.className = `q-nav-card${isActive ? ' active' : ''}${isDone ? ' done' : ''}`;
+    card.setAttribute('role', 'tab');
+    card.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    card.setAttribute('tabindex', isActive ? '0' : '-1');
+    card.setAttribute('aria-label', `Question ${i + 1}: ${q.question.substring(0, 60)}…`);
+    card.innerHTML = `
+      <span class="done-badge">✓ Done</span>
+      <div class="q-num">Q${i + 1}</div>
+      <div class="q-nav-top">
+        <span class="cat-badge ${catClass}">${q.category}</span>
+        <span class="diff-badge ${diffClass}">${q.difficulty}</span>
+      </div>
+      <div class="q-nav-text">${escapeHTML(q.question)}</div>
+    `;
+    card.addEventListener('click', () => goToQuestion(i));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToQuestion(i); } });
+    container.appendChild(card);
+  });
+}
+
+function renderMobileNav() {
+  const container = $('mobileQScroller');
+  container.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const isDone   = state.practiced.has(q.id);
+    const isActive = i === state.currentIndex;
+
+    const btn = document.createElement('button');
+    btn.className = `mobile-q-btn${isActive ? ' active' : ''}${isDone ? ' done' : ''}`;
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    btn.setAttribute('aria-label', `Question ${i + 1}`);
+    btn.innerHTML = `
+      <span class="mq-num">${i + 1}</span>
+      ${isDone ? '<span class="mq-check">✓</span>' : ''}
+    `;
+    btn.addEventListener('click', () => goToQuestion(i));
+    container.appendChild(btn);
+  });
+}
+
+function updateProgress() {
+  const done = state.practiced.size;
+  const pct  = Math.round((done / QUESTIONS.length) * 100);
+  $('progressCount').innerHTML = `${done} <span>/ ${QUESTIONS.length}</span>`;
+  $('progressBarFill').style.width = `${pct}%`;
+  $('progressPct').textContent = `${pct}% Complete`;
+
+  if (done === QUESTIONS.length) {
+    $('sessionComplete').classList.add('visible');
+    $('sessionComplete').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ACCORDION HELPER
+// ═══════════════════════════════════════════════════════════════
+function setAccordion(toggleId, bodyId, open) {
+  const toggle = $(toggleId);
+  const body   = $(bodyId);
+  toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  body.classList.toggle('open', open);
+  // Update chevron
+  const chevron = toggle.querySelector('.tips-chevron, .sample-chevron');
+  if (chevron) chevron.style.transform = open ? 'rotate(180deg)' : '';
+}
+
+function toggleAccordion(toggleId, bodyId) {
+  const isOpen = $(toggleId).getAttribute('aria-expanded') === 'true';
+  setAccordion(toggleId, bodyId, !isOpen);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SPEECH RECOGNITION
+// ═══════════════════════════════════════════════════════════════
+function setupSpeechRecognition() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const btn    = $('btnMic');
+  const status = $('micStatus');
+
+  if (!SpeechRecognition) {
+    btn.textContent = '🎤 Not Supported';
+    btn.classList.add('unsupported');
+    btn.disabled = true;
+    status.textContent = 'Speech recognition not available in this browser.';
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.continuous     = true;
+  recognition.interimResults = true;
+  recognition.lang           = 'en-US';
+  state.recognition = recognition;
+
+  let finalTranscript = '';
+
+  recognition.onstart = () => {
+    state.recognizing = true;
+    btn.textContent = '⏹ Listening…';
+    btn.classList.add('listening');
+    status.textContent = 'Microphone active — speak your answer…';
+    finalTranscript = $('responseTextarea').value;
+  };
+
+  recognition.onresult = (event) => {
+    let interim = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      if (event.results[i].isFinal) {
+        finalTranscript += event.results[i][0].transcript + ' ';
+      } else {
+        interim = event.results[i][0].transcript;
+      }
+    }
+    $('responseTextarea').value = finalTranscript + interim;
+    updateLiveMetrics();
+  };
+
+  recognition.onerror = (event) => {
+    status.textContent = `Mic error: ${event.error}. Try again.`;
+    stopListening();
+  };
+
+  recognition.onend = () => {
+    if (state.recognizing) {
+      // Auto-restart if still supposed to be running
+      recognition.start();
+    }
+  };
+
+  function stopListening() {
+    state.recognizing = false;
+    if (state.recognition) {
+      state.recognition.onend = null; // prevent restart
+      state.recognition.stop();
+      state.recognition.onend = recognition.onend; // restore
+    }
+    btn.textContent = '🎤 Dictate';
+    btn.classList.remove('listening');
+    status.textContent = '';
+  }
+
+  btn.addEventListener('click', () => {
+    if (state.recognizing) {
+      state.recognizing = false;
+      recognition.stop();
+      btn.textContent = '🎤 Dictate';
+      btn.classList.remove('listening');
+      status.textContent = 'Dictation stopped.';
+    } else {
+      recognition.start();
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UTILITY
+// ═══════════════════════════════════════════════════════════════
+function escapeHTML(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RESET
+// ═══════════════════════════════════════════════════════════════
+function doReset() {
+  state.practiced = new Set();
+  state.answers   = {};
+  savePracticed();
+  saveAnswers();
+  resetTimer();
+  $('evalCard').classList.remove('visible');
+  $('sessionComplete').classList.remove('visible');
+  setAccordion('tipsToggle', 'tipsBody', false);
+  setAccordion('sampleToggle', 'sampleBody', false);
+  state.currentIndex = 0;
+  renderQuestion();
+  updateProgress();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EVENT WIRING
+// ═══════════════════════════════════════════════════════════════
+function wireEvents() {
+  // Nav hamburger
+  $('menuToggle').addEventListener('click', () => {
+    const nav  = $('mainNav');
+    const btn  = $('menuToggle');
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  // Prev/Next
+  $('btnPrev').addEventListener('click', () => goToQuestion(state.currentIndex - 1));
+  $('btnNext').addEventListener('click', () => goToQuestion(state.currentIndex + 1));
+
+  // Timer
+  $('btnTimerStart').addEventListener('click', () => {
+    if (state.timerRunning) pauseTimer();
+    else                    startTimer();
+  });
+  $('btnTimerReset').addEventListener('click', resetTimer);
+
+  // Textarea live update
+  $('responseTextarea').addEventListener('input', () => {
+    updateLiveMetrics();
+    const q = QUESTIONS[state.currentIndex];
+    state.answers[q.id] = $('responseTextarea').value;
+    saveAnswers();
+  });
+
+  // Evaluate
+  $('btnEvaluate').addEventListener('click', evaluate);
+
+  // Mark Done
+  $('btnMarkDone').addEventListener('click', () => {
+    const q = QUESTIONS[state.currentIndex];
+    if (state.practiced.has(q.id)) {
+      // Toggle off
+      state.practiced.delete(q.id);
+      savePracticed();
+      $('btnMarkDone').textContent = '✓ Mark Done';
+      $('btnMarkDone').classList.remove('already-done');
+      $('qStatusPill').textContent  = 'In Progress';
+      $('qStatusPill').className     = 'q-status-pill status-inprogress';
+      $('completionBanner').classList.remove('visible');
+      updateProgress();
+      renderNav();
+    } else {
+      state.practiced.add(q.id);
+      savePracticed();
+      $('btnMarkDone').textContent = '✓ Completed';
+      $('btnMarkDone').classList.add('already-done');
+      $('qStatusPill').textContent  = 'Completed ✓';
+      $('qStatusPill').className     = 'q-status-pill status-done';
+      $('completionBanner').classList.add('visible');
+      updateProgress();
+      renderNav();
+    }
+  });
+
+  // Next Q from banner
+  $('btnNextQ').addEventListener('click', () => {
+    if (state.currentIndex < QUESTIONS.length - 1) {
+      goToQuestion(state.currentIndex + 1);
+    } else {
+      $('sessionComplete').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+
+  // Reset progress (double-click confirm)
+  $('btnReset').addEventListener('click', () => {
+    const btn = $('btnReset');
+    state.resetClickCount++;
+    if (state.resetClickCount === 1) {
+      btn.textContent = '⚠ Click again to confirm';
+      btn.classList.add('confirm-state');
+      clearTimeout(state.resetTimer);
+      state.resetTimer = setTimeout(() => {
+        state.resetClickCount = 0;
+        btn.textContent = '↺ Reset Progress';
+        btn.classList.remove('confirm-state');
+      }, 3000);
+    } else {
+      state.resetClickCount = 0;
+      clearTimeout(state.resetTimer);
+      $('btnReset').textContent = '↺ Reset Progress';
+      $('btnReset').classList.remove('confirm-state');
+      doReset();
+    }
+  });
+
+  // Start over
+  $('btnStartOver').addEventListener('click', () => {
+    doReset();
+  });
+
+  // Tips accordion
+  $('tipsToggle').addEventListener('click', () => toggleAccordion('tipsToggle', 'tipsBody'));
+
+  // Sample accordion
+  $('sampleToggle').addEventListener('click', () => toggleAccordion('sampleToggle', 'sampleBody'));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+function init() {
+  loadState();
+  wireEvents();
+  setupSpeechRecognition();
+  renderQuestion();
+  updateProgress();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

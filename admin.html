@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>NS WorkLink — Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="jobs.js" defer></script>
+  <style>
+    /* ── Reset & base ────────────────────────────────────────────────────── */
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --navy:#10233f;--blue:#315de8;--blue-dark:#2349c8;--green:#23a879;
+      --red:#e05c5c;--orange:#f4a34b;--line:#e6ebf2;--surface:#f7f9fc;
+      --ink:#18253b;--muted:#68768b;--white:#fff;--radius:12px;
+      --shadow:0 8px 30px rgba(16,35,63,.10);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:"DM Sans",sans-serif;background:var(--surface);color:var(--ink);line-height:1.6;min-height:100vh}
+    a{color:inherit;text-decoration:none}
+    button,input,select,textarea{font:inherit}
+
+    /* ── Login screen ────────────────────────────────────────────────────── */
+    #loginScreen{
+      display:flex;align-items:center;justify-content:center;
+      min-height:100vh;background:linear-gradient(135deg,#f0f4ff,#e8f5f0);
+    }
+    .login-card{
+      background:#fff;border-radius:20px;padding:44px 40px;
+      box-shadow:0 20px 60px rgba(16,35,63,.12);width:min(420px,calc(100% - 32px));
+      text-align:center;
+    }
+    .login-logo{
+      display:inline-grid;place-items:center;width:56px;height:56px;
+      background:linear-gradient(145deg,#3768f0,#2449c9);border-radius:16px;
+      color:#fff;font-family:Manrope,sans-serif;font-size:18px;font-weight:800;
+      letter-spacing:-1px;margin-bottom:20px;box-shadow:0 6px 18px #315de830;
+    }
+    .login-card h1{font-family:Manrope,sans-serif;font-size:22px;color:var(--navy);margin-bottom:6px}
+    .login-card p{font-size:12px;color:var(--muted);margin-bottom:28px}
+    .login-field{text-align:left;margin-bottom:16px}
+    .login-field label{display:block;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;margin-bottom:6px;text-transform:uppercase}
+    .login-field input{
+      width:100%;border:1px solid var(--line);border-radius:10px;
+      padding:12px 14px;font-size:13px;outline:none;transition:border-color .2s;
+    }
+    .login-field input:focus{border-color:var(--blue)}
+    .login-btn{
+      width:100%;padding:13px;background:var(--blue);color:#fff;border:0;
+      border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;
+      transition:background .2s,transform .15s;margin-top:4px;
+    }
+    .login-btn:hover{background:var(--blue-dark);transform:translateY(-1px)}
+    .login-error{color:var(--red);font-size:12px;margin-top:10px;min-height:18px}
+
+    /* ── App shell ───────────────────────────────────────────────────────── */
+    #appShell{display:none}
+    .topbar{
+      background:#fff;border-bottom:1px solid var(--line);
+      padding:0 28px;height:64px;display:flex;align-items:center;
+      justify-content:space-between;position:sticky;top:0;z-index:10;
+    }
+    .topbar-brand{display:flex;align-items:center;gap:11px}
+    .topbar-logo{
+      display:grid;place-items:center;width:36px;height:36px;
+      background:linear-gradient(145deg,#3768f0,#2449c9);border-radius:10px;
+      color:#fff;font-family:Manrope,sans-serif;font-size:12px;font-weight:800;
+    }
+    .topbar-title{font-family:Manrope,sans-serif;font-size:15px;font-weight:800;color:var(--navy)}
+    .topbar-title span{color:var(--blue)}
+    .topbar-right{display:flex;align-items:center;gap:12px}
+    .topbar-site{font-size:11px;font-weight:700;color:var(--blue);padding:8px 14px;border:1px solid #d5e0ff;border-radius:8px}
+    .logout-btn{font-size:11px;font-weight:700;color:var(--muted);background:none;border:0;cursor:pointer;padding:8px}
+    .logout-btn:hover{color:var(--red)}
+
+    /* ── Main layout ─────────────────────────────────────────────────────── */
+    .admin-main{max-width:1100px;margin:0 auto;padding:32px 24px}
+
+    /* ── Stats bar ───────────────────────────────────────────────────────── */
+    .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+    .stat-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+    .stat-card small{font-size:10px;letter-spacing:1.2px;font-weight:700;color:var(--muted);text-transform:uppercase}
+    .stat-card strong{display:block;font-family:Manrope,sans-serif;font-size:26px;font-weight:800;color:var(--navy);margin-top:4px}
+    .stat-card.blue strong{color:var(--blue)}
+    .stat-card.green strong{color:var(--green)}
+    .stat-card.orange strong{color:var(--orange)}
+
+    /* ── Section headers ─────────────────────────────────────────────────── */
+    .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .section-header h2{font-family:Manrope,sans-serif;font-size:17px;color:var(--navy)}
+    .btn{
+      display:inline-flex;align-items:center;gap:7px;padding:10px 18px;
+      border-radius:9px;font-size:12px;font-weight:700;border:0;cursor:pointer;
+      transition:background .2s,transform .15s;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--blue);color:#fff}
+    .btn-primary:hover{background:var(--blue-dark)}
+    .btn-danger{background:#fff0f0;color:var(--red);border:1px solid #ffd5d5}
+    .btn-danger:hover{background:#ffe0e0}
+    .btn-secondary{background:#eef2ff;color:var(--blue)}
+    .btn-secondary:hover{background:#e0e8ff}
+    .btn-ghost{background:#f4f6f9;color:var(--ink)}
+    .btn-ghost:hover{background:#eaedf2}
+    .btn-sm{padding:6px 12px;font-size:11px}
+
+    /* ── Job table ───────────────────────────────────────────────────────── */
+    .jobs-table-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-bottom:28px}
+    .jobs-table{width:100%;border-collapse:collapse}
+    .jobs-table th{
+      background:#f7f9fc;padding:11px 16px;text-align:left;
+      font-size:10px;letter-spacing:1px;font-weight:700;color:var(--muted);
+      text-transform:uppercase;border-bottom:1px solid var(--line);
+    }
+    .jobs-table td{padding:14px 16px;border-bottom:1px solid #f0f3f8;vertical-align:middle;font-size:12px}
+    .jobs-table tr:last-child td{border-bottom:0}
+    .jobs-table tr:hover td{background:#fafbff}
+    .job-row-logo{
+      display:grid;place-items:center;width:36px;height:36px;
+      border-radius:9px;font-family:Manrope,sans-serif;font-size:12px;font-weight:800;flex-shrink:0;
+    }
+    .logo-blue{background:#e8eeff;color:#315de8}.logo-green{background:#e0f7ed;color:#148b61}
+    .logo-orange{background:#fff0df;color:#ba7424}.logo-purple{background:#eee8ff;color:#7954d6}
+    .logo-pink{background:#ffe8ef;color:#bf5071}.logo-dark{background:#e5eaf0;color:#263e5b}
+    .job-row-info{display:flex;align-items:center;gap:12px}
+    .job-row-name strong{display:block;font-size:13px;color:var(--navy);font-weight:600}
+    .job-row-name span{font-size:11px;color:var(--muted)}
+    .pill{display:inline-block;padding:3px 9px;border-radius:5px;font-size:10px;font-weight:600;background:#f2f5f9;color:#627188}
+    .pill.remote{background:#e8f8f0;color:#21815d}
+    .pill.internship{background:#fff3e5;color:#a76d24}
+    .pill.full{background:#e8eeff;color:#315de8}
+    .pill.contract{background:#f0e8ff;color:#7954d6}
+    .pill.freelance{background:#fff8e0;color:#a07010}
+    .pill.part{background:#f8f0ff;color:#9040c0}
+    .row-actions{display:flex;align-items:center;gap:6px}
+    .order-btns{display:flex;flex-direction:column;gap:2px}
+    .order-btn{
+      width:24px;height:20px;border:1px solid var(--line);background:#fff;
+      border-radius:5px;cursor:pointer;font-size:10px;color:var(--muted);
+      display:grid;place-items:center;transition:background .15s;
+    }
+    .order-btn:hover{background:#eef2ff;color:var(--blue);border-color:#c5d3ff}
+    .order-btn:disabled{opacity:.3;cursor:default}
+
+    /* ── Modal / drawer ──────────────────────────────────────────────────── */
+    .modal-overlay{
+      display:none;position:fixed;inset:0;background:#10233f80;
+      backdrop-filter:blur(3px);z-index:100;align-items:flex-start;justify-content:center;
+      padding:32px 16px;overflow-y:auto;
+    }
+    .modal-overlay.open{display:flex}
+    .modal{
+      background:#fff;border-radius:18px;width:min(640px,100%);
+      box-shadow:0 30px 80px rgba(16,35,63,.18);animation:slideIn .2s ease;
+    }
+    @keyframes slideIn{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+    .modal-head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:22px 26px;border-bottom:1px solid var(--line);
+    }
+    .modal-head h2{font-family:Manrope,sans-serif;font-size:17px;color:var(--navy)}
+    .modal-close{
+      width:32px;height:32px;border:0;background:#f1f4f8;border-radius:8px;
+      cursor:pointer;font-size:20px;color:var(--muted);display:grid;place-items:center;
+    }
+    .modal-close:hover{background:#ffe0e0;color:var(--red)}
+    .modal-body{padding:26px}
+    .modal-foot{
+      padding:18px 26px;border-top:1px solid var(--line);
+      display:flex;justify-content:flex-end;gap:10px;
+    }
+
+    /* ── Form ────────────────────────────────────────────────────────────── */
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .form-grid .full{grid-column:1/-1}
+    .field{display:flex;flex-direction:column;gap:5px}
+    .field label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase}
+    .field input,.field select,.field textarea{
+      border:1px solid var(--line);border-radius:9px;padding:10px 13px;
+      font-size:13px;outline:none;transition:border-color .2s;color:var(--ink);
+      background:#fff;
+    }
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue)}
+    .field textarea{resize:vertical;min-height:72px}
+    .field-hint{font-size:10px;color:var(--muted);margin-top:2px}
+    .list-editor{display:flex;flex-direction:column;gap:7px}
+    .list-item{display:flex;gap:7px;align-items:center}
+    .list-item input{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 11px;font-size:12px;outline:none;transition:border-color .2s}
+    .list-item input:focus{border-color:var(--blue)}
+    .list-item-remove{
+      width:28px;height:28px;border:0;background:#fff0f0;color:var(--red);
+      border-radius:7px;cursor:pointer;font-size:16px;flex-shrink:0;
+      display:grid;place-items:center;
+    }
+    .add-list-item{
+      font-size:11px;font-weight:700;color:var(--blue);background:none;
+      border:1px dashed #c5d3ff;border-radius:8px;padding:7px;cursor:pointer;
+      transition:background .15s;
+    }
+    .add-list-item:hover{background:#eef2ff}
+    .logo-preview-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+    .logo-swatch{
+      width:36px;height:36px;border-radius:9px;cursor:pointer;
+      display:grid;place-items:center;font-size:11px;font-weight:800;
+      border:2px solid transparent;transition:border-color .15s,transform .15s;
+      font-family:Manrope,sans-serif;
+    }
+    .logo-swatch.selected{border-color:var(--blue);transform:scale(1.1)}
+    .toast{
+      position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;
+      padding:13px 20px;border-radius:11px;font-size:13px;font-weight:600;
+      box-shadow:0 10px 30px rgba(16,35,63,.2);z-index:200;
+      animation:toastIn .25s ease;display:none;
+    }
+    .toast.show{display:block}
+    @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .empty-admin{text-align:center;padding:48px 20px;color:var(--muted);font-size:13px}
+    .empty-admin strong{display:block;font-size:16px;color:var(--navy);margin-bottom:6px}
+
+    /* ── Confirm dialog ──────────────────────────────────────────────────── */
+    .confirm-overlay{
+      display:none;position:fixed;inset:0;background:#10233f70;
+      backdrop-filter:blur(2px);z-index:200;align-items:center;justify-content:center;
+    }
+    .confirm-overlay.open{display:flex}
+    .confirm-box{
+      background:#fff;border-radius:14px;padding:28px;width:min(380px,calc(100% - 32px));
+      box-shadow:0 20px 60px rgba(16,35,63,.18);text-align:center;
+    }
+    .confirm-box h3{font-family:Manrope,sans-serif;font-size:17px;color:var(--navy);margin-bottom:8px}
+    .confirm-box p{font-size:12px;color:var(--muted);margin-bottom:22px}
+    .confirm-actions{display:flex;gap:10px;justify-content:center}
+
+    @media(max-width:700px){
+      .stats-bar{grid-template-columns:1fr 1fr}
+      .form-grid{grid-template-columns:1fr}
+      .form-grid .full{grid-column:1}
+      .topbar{padding:0 16px}
+      .admin-main{padding:20px 14px}
+    }
+    @media(max-width:480px){.stats-bar{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ───────────────────────────────────────────────────────── -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">NS</div>
+    <h1>Admin Panel</h1>
+    <p>Sign in to manage NS WorkLink job listings</p>
+    <div class="login-field">
+      <label>Username</label>
+      <input type="text" id="loginUser" placeholder="admin" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="login-btn" id="loginBtn">Sign in →</button>
+    <p class="login-error" id="loginError"></p>
+  </div>
+</div>
+
+<!-- ── APP SHELL ─────────────────────────────────────────────────────────── -->
+<div id="appShell">
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-logo">NS</div>
+      <span class="topbar-title">NS <span>WorkLink</span> Admin</span>
+    </div>
+    <div class="topbar-right">
+      <a class="topbar-site" href="index.html" target="_blank">← View website ↗</a>
+      <button class="logout-btn" id="logoutBtn">Sign out</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+
+    <!-- Stats -->
+    <div class="stats-bar" id="statsBar">
+      <div class="stat-card"><small>Total jobs</small><strong id="statTotal">0</strong></div>
+      <div class="stat-card blue"><small>Remote</small><strong id="statRemote">0</strong></div>
+      <div class="stat-card green"><small>Full-time</small><strong id="statFulltime">0</strong></div>
+      <div class="stat-card orange"><small>Internships</small><strong id="statInternship">0</strong></div>
+    </div>
+
+    <!-- Jobs list -->
+    <div class="section-header">
+      <h2>Job listings <span id="jobCount" style="font-size:13px;color:var(--muted);font-weight:400"></span></h2>
+      <button class="btn btn-primary" id="addJobBtn">+ Add new job</button>
+    </div>
+
+    <div class="jobs-table-wrap">
+      <table class="jobs-table">
+        <thead>
+          <tr>
+            <th style="width:36px">Order</th>
+            <th>Job</th>
+            <th>Type</th>
+            <th>Workplace</th>
+            <th>Location</th>
+            <th>Posted</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="jobsTableBody"></tbody>
+      </table>
+      <div class="empty-admin" id="emptyAdmin" style="display:none">
+        <strong>No jobs yet</strong>Click "Add new job" to get started.
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── ADD / EDIT MODAL ──────────────────────────────────────────────────── -->
+<div class="modal-overlay" id="jobModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="modalTitle">Add new job</h2>
+      <button class="modal-close" id="modalClose">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+
+        <div class="field full">
+          <label>Job title *</label>
+          <input type="text" id="fTitle" placeholder="e.g. Marketing Assistant">
+        </div>
+
+        <div class="field">
+          <label>Company name *</label>
+          <input type="text" id="fCompany" placeholder="e.g. Northstar Digital">
+        </div>
+
+        <div class="field">
+          <label>Initials (2 letters) *</label>
+          <input type="text" id="fInitials" placeholder="e.g. ND" maxlength="3">
+        </div>
+
+        <div class="field full">
+          <label>Logo colour</label>
+          <div class="logo-preview-row" id="logoSwatches"></div>
+          <input type="hidden" id="fLogo" value="blue">
+        </div>
+
+        <div class="field">
+          <label>Location *</label>
+          <input type="text" id="fLocation" placeholder="e.g. Kigali, Rwanda">
+        </div>
+
+        <div class="field">
+          <label>Salary / Rate</label>
+          <input type="text" id="fSalary" placeholder="e.g. RWF 200,000/month">
+        </div>
+
+        <div class="field">
+          <label>Job type *</label>
+          <select id="fType">
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Contract">Contract</option>
+            <option value="Internship">Internship</option>
+            <option value="Freelance">Freelance</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Workplace *</label>
+          <select id="fWorkplace">
+            <option value="Remote">Remote</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="On-site">On-site</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Experience level *</label>
+          <select id="fExperience">
+            <option value="Entry level">Entry level</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Experienced">Experienced</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Posted label</label>
+          <input type="text" id="fPosted" placeholder="e.g. Posted 1 Jan 2025">
+        </div>
+
+        <div class="field full">
+          <label>Apply URL or email *</label>
+          <input type="text" id="fApplyUrl" placeholder="https://company.com/apply  or  mailto:hr@company.com">
+          <span class="field-hint">Use a full URL (https://...) or an email link (mailto:...).</span>
+        </div>
+
+        <div class="field full">
+          <label>Short description *</label>
+          <textarea id="fDescription" placeholder="One or two sentences describing the role."></textarea>
+        </div>
+
+        <div class="field full">
+          <label>Responsibilities</label>
+          <div class="list-editor" id="respEditor"></div>
+          <button class="add-list-item" id="addResp" type="button">+ Add responsibility</button>
+        </div>
+
+        <div class="field full">
+          <label>Requirements</label>
+          <div class="list-editor" id="reqEditor"></div>
+          <button class="add-list-item" id="addReq" type="button">+ Add requirement</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="modalCancel">Cancel</button>
+      <button class="btn btn-primary" id="modalSave">Save job</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── DELETE CONFIRM ─────────────────────────────────────────────────────── -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h3>Remove this job?</h3>
+    <p id="confirmMsg">This will remove the listing from the website.</p>
+    <div class="confirm-actions">
+      <button class="btn btn-ghost" id="confirmCancel">Keep it</button>
+      <button class="btn btn-danger" id="confirmDelete">Yes, remove</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ──────────────────────────────────────────────────────────────── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Auth ─────────────────────────────────────────────────────────────────────
+// Default credentials — change ADMIN_USER / ADMIN_PASS to your preferred values.
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "nsworklink2025";
+const SESSION_KEY = "nsworklink_admin_session";
+const STORAGE_KEY = "nsworklink_jobs";
+
+function isLoggedIn() { return sessionStorage.getItem(SESSION_KEY) === "yes"; }
+function showApp()    { document.getElementById("loginScreen").style.display = "none"; document.getElementById("appShell").style.display = "block"; }
+function showLogin()  { document.getElementById("loginScreen").style.display = "flex"; document.getElementById("appShell").style.display = "none"; }
+
+document.getElementById("loginBtn").addEventListener("click", doLogin);
+document.getElementById("loginPass").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+document.getElementById("loginUser").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+
+function doLogin() {
+  const u = document.getElementById("loginUser").value.trim();
+  const p = document.getElementById("loginPass").value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    sessionStorage.setItem(SESSION_KEY, "yes");
+    showApp();
+    initApp();
+  } else {
+    document.getElementById("loginError").textContent = "Incorrect username or password.";
+  }
+}
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  sessionStorage.removeItem(SESSION_KEY);
+  showLogin();
+});
+
+// ── Storage ───────────────────────────────────────────────────────────────────
+function loadJobs() {
+  try {
+    const s = localStorage.getItem(STORAGE_KEY);
+    return s ? JSON.parse(s) : (typeof JOBS_DATA !== "undefined" ? JSON.parse(JSON.stringify(JOBS_DATA)) : []);
+  } catch { return typeof JOBS_DATA !== "undefined" ? JSON.parse(JSON.stringify(JOBS_DATA)) : []; }
+}
+function saveJobs(jobs) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
+}
+function nextId(jobs) {
+  return jobs.length === 0 ? 1 : Math.max(...jobs.map(j => j.id)) + 1;
+}
+
+// ── Logo swatches ─────────────────────────────────────────────────────────────
+const LOGOS = [
+  { key:"blue",   bg:"#e8eeff", color:"#315de8" },
+  { key:"green",  bg:"#e0f7ed", color:"#148b61" },
+  { key:"orange", bg:"#fff0df", color:"#ba7424" },
+  { key:"purple", bg:"#eee8ff", color:"#7954d6" },
+  { key:"pink",   bg:"#ffe8ef", color:"#bf5071" },
+  { key:"dark",   bg:"#e5eaf0", color:"#263e5b" },
+];
+
+function buildSwatches(selectedKey) {
+  const container = document.getElementById("logoSwatches");
+  container.innerHTML = "";
+  LOGOS.forEach(l => {
+    const sw = document.createElement("div");
+    sw.className = "logo-swatch" + (l.key === selectedKey ? " selected" : "");
+    sw.style.background = l.bg;
+    sw.style.color = l.color;
+    sw.textContent = document.getElementById("fInitials").value.slice(0,2).toUpperCase() || "NS";
+    sw.dataset.key = l.key;
+    sw.addEventListener("click", () => {
+      document.querySelectorAll(".logo-swatch").forEach(s => s.classList.remove("selected"));
+      sw.classList.add("selected");
+      document.getElementById("fLogo").value = l.key;
+    });
+    container.appendChild(sw);
+  });
+}
+
+// Update swatch previews when initials change
+document.getElementById("fInitials").addEventListener("input", () => {
+  buildSwatches(document.getElementById("fLogo").value);
+});
+
+// ── List editor (responsibilities / requirements) ─────────────────────────────
+function buildListEditor(containerId, items) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+  (items || [""]).forEach((val, i) => addListItem(container, val));
+}
+
+function addListItem(container, value = "") {
+  const row = document.createElement("div");
+  row.className = "list-item";
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = value;
+  input.placeholder = "Enter item…";
+  const btn = document.createElement("button");
+  btn.className = "list-item-remove";
+  btn.type = "button";
+  btn.textContent = "×";
+  btn.addEventListener("click", () => { if (container.children.length > 1) row.remove(); });
+  row.appendChild(input);
+  row.appendChild(btn);
+  container.appendChild(row);
+}
+
+function getListValues(containerId) {
+  return [...document.getElementById(containerId).querySelectorAll("input")]
+    .map(i => i.value.trim()).filter(Boolean);
+}
+
+document.getElementById("addResp").addEventListener("click", () => addListItem(document.getElementById("respEditor")));
+document.getElementById("addReq").addEventListener("click",  () => addListItem(document.getElementById("reqEditor")));
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 2800);
+}
+
+// ── Pill helper ───────────────────────────────────────────────────────────────
+function typePillClass(type) {
+  return { "Full-time":"full","Internship":"internship","Contract":"contract","Freelance":"freelance","Part-time":"part" }[type] || "";
+}
+
+// ── Render table ──────────────────────────────────────────────────────────────
+function renderTable(jobs) {
+  const tbody = document.getElementById("jobsTableBody");
+  const empty = document.getElementById("emptyAdmin");
+  document.getElementById("jobCount").textContent = `(${jobs.length})`;
+
+  // Stats
+  document.getElementById("statTotal").textContent      = jobs.length;
+  document.getElementById("statRemote").textContent     = jobs.filter(j => j.workplace === "Remote").length;
+  document.getElementById("statFulltime").textContent   = jobs.filter(j => j.type === "Full-time").length;
+  document.getElementById("statInternship").textContent = jobs.filter(j => j.type === "Internship").length;
+
+  if (jobs.length === 0) { tbody.innerHTML = ""; empty.style.display = "block"; return; }
+  empty.style.display = "none";
+
+  tbody.innerHTML = jobs.map((job, idx) => `
+    <tr data-id="${job.id}">
+      <td>
+        <div class="order-btns">
+          <button class="order-btn" data-move="up" data-idx="${idx}" ${idx === 0 ? "disabled" : ""} title="Move up">▲</button>
+          <button class="order-btn" data-move="down" data-idx="${idx}" ${idx === jobs.length - 1 ? "disabled" : ""} title="Move down">▼</button>
+        </div>
+      </td>
+      <td>
+        <div class="job-row-info">
+          <div class="job-row-logo logo-${job.logo}">${escHTML(job.initials)}</div>
+          <div class="job-row-name">
+            <strong>${escHTML(job.title)}</strong>
+            <span>${escHTML(job.company)}</span>
+          </div>
+        </div>
+      </td>
+      <td><span class="pill ${typePillClass(job.type)}">${escHTML(job.type)}</span></td>
+      <td><span class="pill ${job.workplace === "Remote" ? "remote" : ""}">${escHTML(job.workplace)}</span></td>
+      <td style="font-size:11px;color:var(--muted)">${escHTML(job.location)}</td>
+      <td style="font-size:11px;color:var(--muted)">${escHTML(job.posted)}</td>
+      <td>
+        <div class="row-actions">
+          <button class="btn btn-secondary btn-sm" data-edit="${job.id}">Edit</button>
+          <button class="btn btn-danger btn-sm" data-delete="${job.id}">Remove</button>
+        </div>
+      </td>
+    </tr>`).join("");
+}
+
+function escHTML(v) {
+  return String(v || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+}
+
+// ── Table actions ─────────────────────────────────────────────────────────────
+document.getElementById("jobsTableBody").addEventListener("click", e => {
+  const editBtn   = e.target.closest("[data-edit]");
+  const deleteBtn = e.target.closest("[data-delete]");
+  const moveBtn   = e.target.closest("[data-move]");
+
+  if (editBtn)   openModal(Number(editBtn.dataset.edit));
+  if (deleteBtn) openConfirm(Number(deleteBtn.dataset.delete));
+  if (moveBtn)   moveJob(Number(moveBtn.dataset.idx), moveBtn.dataset.move);
+});
+
+function moveJob(idx, direction) {
+  const jobs = loadJobs();
+  const swapWith = direction === "up" ? idx - 1 : idx + 1;
+  if (swapWith < 0 || swapWith >= jobs.length) return;
+  [jobs[idx], jobs[swapWith]] = [jobs[swapWith], jobs[idx]];
+  saveJobs(jobs);
+  renderTable(jobs);
+  toast(direction === "up" ? "↑ Job moved up" : "↓ Job moved down");
+}
+
+// ── Add / Edit modal ──────────────────────────────────────────────────────────
+let editingId = null;
+
+function openModal(id = null) {
+  editingId = id;
+  document.getElementById("modalTitle").textContent = id ? "Edit job" : "Add new job";
+  const jobs = loadJobs();
+  const job = id ? jobs.find(j => j.id === id) : null;
+
+  document.getElementById("fTitle").value       = job?.title || "";
+  document.getElementById("fCompany").value     = job?.company || "";
+  document.getElementById("fInitials").value    = job?.initials || "";
+  document.getElementById("fLocation").value    = job?.location || "";
+  document.getElementById("fSalary").value      = job?.salary || "";
+  document.getElementById("fType").value        = job?.type || "Full-time";
+  document.getElementById("fWorkplace").value   = job?.workplace || "Remote";
+  document.getElementById("fExperience").value  = job?.experience || "Entry level";
+  document.getElementById("fPosted").value      = job?.posted || "";
+  document.getElementById("fApplyUrl").value    = job?.applyUrl || "";
+  document.getElementById("fDescription").value = job?.description || "";
+  document.getElementById("fLogo").value        = job?.logo || "blue";
+
+  buildSwatches(job?.logo || "blue");
+  buildListEditor("respEditor", job?.responsibilities || [""]);
+  buildListEditor("reqEditor",  job?.requirements || [""]);
+
+  document.getElementById("jobModal").classList.add("open");
+  document.getElementById("fTitle").focus();
+}
+
+function closeModal() {
+  document.getElementById("jobModal").classList.remove("open");
+  editingId = null;
+}
+
+document.getElementById("addJobBtn").addEventListener("click", () => openModal());
+document.getElementById("modalClose").addEventListener("click", closeModal);
+document.getElementById("modalCancel").addEventListener("click", closeModal);
+document.getElementById("jobModal").addEventListener("click", e => {
+  if (e.target === document.getElementById("jobModal")) closeModal();
+});
+
+document.getElementById("modalSave").addEventListener("click", () => {
+  const title    = document.getElementById("fTitle").value.trim();
+  const company  = document.getElementById("fCompany").value.trim();
+  const initials = document.getElementById("fInitials").value.trim();
+  const location = document.getElementById("fLocation").value.trim();
+  const applyUrl = document.getElementById("fApplyUrl").value.trim();
+  const description = document.getElementById("fDescription").value.trim();
+
+  if (!title || !company || !initials || !location || !applyUrl || !description) {
+    // Highlight each empty required field
+    [
+      ["fTitle", title], ["fCompany", company], ["fInitials", initials],
+      ["fLocation", location], ["fApplyUrl", applyUrl], ["fDescription", description]
+    ].forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (!val) { el.style.borderColor = "var(--red)"; el.addEventListener("input", () => el.style.borderColor = "", { once: true }); }
+    });
+    toast("⚠ Please fill in all required fields marked in red");
+    return;
+  }
+  // Validate applyUrl format
+  const urlOk = applyUrl.startsWith("mailto:") || applyUrl.startsWith("https://") || applyUrl.startsWith("http://");
+  if (!urlOk) {
+    const el = document.getElementById("fApplyUrl");
+    el.style.borderColor = "var(--red)";
+    el.addEventListener("input", () => el.style.borderColor = "", { once: true });
+    toast("⚠ Apply URL must start with https:// or mailto:");
+    return;
+  }
+
+  const jobs = loadJobs();
+  const jobData = {
+    id:             editingId || nextId(jobs),
+    title,
+    company,
+    initials:       initials.toUpperCase().slice(0, 3),
+    logo:           document.getElementById("fLogo").value,
+    location,
+    type:           document.getElementById("fType").value,
+    workplace:      document.getElementById("fWorkplace").value,
+    experience:     document.getElementById("fExperience").value,
+    posted:         document.getElementById("fPosted").value.trim() || "Recently posted",
+    salary:         document.getElementById("fSalary").value.trim() || "Salary not specified",
+    applyUrl,
+    description,
+    responsibilities: getListValues("respEditor"),
+    requirements:     getListValues("reqEditor"),
+  };
+
+  if (editingId) {
+    const idx = jobs.findIndex(j => j.id === editingId);
+    if (idx !== -1) jobs[idx] = jobData;
+    toast("✓ Job updated successfully");
+  } else {
+    jobs.push(jobData);
+    toast("✓ New job added successfully");
+  }
+
+  saveJobs(jobs);
+  renderTable(jobs);
+  closeModal();
+});
+
+// ── Delete confirm ────────────────────────────────────────────────────────────
+let deletingId = null;
+
+function openConfirm(id) {
+  deletingId = id;
+  const jobs = loadJobs();
+  const job = jobs.find(j => j.id === id);
+  document.getElementById("confirmMsg").textContent =
+    job ? `"${job.title}" will be removed from the website.` : "This job will be removed.";
+  document.getElementById("confirmOverlay").classList.add("open");
+}
+
+document.getElementById("confirmCancel").addEventListener("click", () => {
+  document.getElementById("confirmOverlay").classList.remove("open");
+  deletingId = null;
+});
+
+document.getElementById("confirmDelete").addEventListener("click", () => {
+  if (deletingId === null) return;
+  const jobs = loadJobs().filter(j => j.id !== deletingId);
+  saveJobs(jobs);
+  renderTable(jobs);
+  document.getElementById("confirmOverlay").classList.remove("open");
+  deletingId = null;
+  toast("✓ Job removed");
+});
+
+// ── Export to XML ─────────────────────────────────────────────────────────────
+function escXML(v) {
+  return String(v || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&apos;"})[c]);
+}
+
+function jobsToXML(jobs) {
+  const lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<jobs>'];
+  jobs.forEach(job => {
+    lines.push('  <job>');
+    lines.push(`    <id>${escXML(job.id)}</id>`);
+    lines.push(`    <title>${escXML(job.title)}</title>`);
+    lines.push(`    <company>${escXML(job.company)}</company>`);
+    lines.push(`    <initials>${escXML(job.initials)}</initials>`);
+    lines.push(`    <logo>${escXML(job.logo)}</logo>`);
+    lines.push(`    <location>${escXML(job.location)}</location>`);
+    lines.push(`    <type>${escXML(job.type)}</type>`);
+    lines.push(`    <workplace>${escXML(job.workplace)}</workplace>`);
+    lines.push(`    <experience>${escXML(job.experience)}</experience>`);
+    lines.push(`    <posted>${escXML(job.posted)}</posted>`);
+    lines.push(`    <salary>${escXML(job.salary)}</salary>`);
+    lines.push(`    <applyUrl>${escXML(job.applyUrl)}</applyUrl>`);
+    lines.push(`    <description>${escXML(job.description)}</description>`);
+    lines.push('    <responsibilities>');
+    (job.responsibilities || []).forEach(r => lines.push(`      <item>${escXML(r)}</item>`));
+    lines.push('    </responsibilities>');
+    lines.push('    <requirements>');
+    (job.requirements || []).forEach(r => lines.push(`      <item>${escXML(r)}</item>`));
+    lines.push('    </requirements>');
+    lines.push('  </job>');
+  });
+  lines.push('</jobs>');
+  return lines.join('\n');
+}
+
+document.getElementById("exportXmlBtn").addEventListener("click", () => {
+  const jobs = loadJobs();
+  if (jobs.length === 0) { toast("⚠ No jobs to export"); return; }
+  const xml  = jobsToXML(jobs);
+  const blob = new Blob([xml], { type: "application/xml" });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement("a");
+  const date = new Date().toISOString().slice(0, 10);
+  a.href     = url;
+  a.download = `nsworklink-jobs-${date}.xml`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast(`✓ Exported ${jobs.length} job${jobs.length !== 1 ? "s" : ""} to XML`);
+});
+
+// ── Import from XML ───────────────────────────────────────────────────────────
+function xmlToJobs(xmlString) {
+  const parser = new DOMParser();
+  const doc    = parser.parseFromString(xmlString, "application/xml");
+  const errors = doc.querySelector("parsererror");
+  if (errors) throw new Error("Invalid XML file");
+
+  return [...doc.querySelectorAll("job")].map(node => {
+    const text = tag => node.querySelector(tag)?.textContent?.trim() || "";
+    const list = tag => [...node.querySelectorAll(tag + " > item")].map(el => el.textContent.trim()).filter(Boolean);
+    return {
+      id:              Number(text("id")) || Date.now(),
+      title:           text("title"),
+      company:         text("company"),
+      initials:        text("initials"),
+      logo:            text("logo") || "blue",
+      location:        text("location"),
+      type:            text("type"),
+      workplace:       text("workplace"),
+      experience:      text("experience"),
+      posted:          text("posted"),
+      salary:          text("salary"),
+      applyUrl:        text("applyUrl"),
+      description:     text("description"),
+      responsibilities: list("responsibilities"),
+      requirements:    list("requirements"),
+    };
+  });
+}
+
+document.getElementById("importXmlInput").addEventListener("change", function () {
+  const file = this.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    try {
+      const imported = xmlToJobs(e.target.result);
+      if (imported.length === 0) { toast("⚠ No jobs found in that XML file"); return; }
+      // Re-assign ids to avoid duplicates, keep order
+      const fresh = imported.map((job, idx) => ({ ...job, id: idx + 1 }));
+      saveJobs(fresh);
+      renderTable(fresh);
+      toast(`✓ Imported ${fresh.length} job${fresh.length !== 1 ? "s" : ""} from XML`);
+    } catch (err) {
+      toast("✗ Could not read file — make sure it is a valid NS WorkLink XML export");
+    }
+  };
+  reader.readAsText(file);
+  this.value = ""; // reset so same file can be re-imported
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+function initApp() {
+  renderTable(loadJobs());
+}
+
+// Boot — check existing session
+if (isLoggedIn()) { showApp(); initApp(); } else { showLogin(); }
+</script>
+</body>
+</html>
